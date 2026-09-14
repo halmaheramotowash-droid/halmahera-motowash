@@ -217,6 +217,10 @@ export default function StrukPage() {
         );
 
         setPrintMessage("Struk berhasil dicetak.");
+
+        setTimeout(() => {
+          router.push("/riwayat");
+        }, 500);
       } catch (error) {
         console.error(
           "Gagal menyimpan status PRINTED:",
@@ -685,14 +689,10 @@ export default function StrukPage() {
           {/* KEMBALI */}
           <button
             type="button"
-            onClick={() =>
-              router.push(
-                `/detail/${transaction.id}`
-              )
-            }
+            onClick={() => router.push("/riwayat")}
             className="mt-3 w-full rounded-2xl bg-zinc-900 px-4 py-4 text-sm font-black text-white transition active:scale-[0.98] print:hidden"
           >
-            ← KEMBALI KE DETAIL
+            ← KEMBALI KE RIWAYAT
           </button>
 
           <p className="mt-4 text-center text-xs text-zinc-500 print:hidden">
