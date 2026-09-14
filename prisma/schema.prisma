@@ -1,0 +1,234 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  username     String        @unique
+  passwordHash String
+  role         UserRole
+  active       Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+  expenses     Expense[]
+  transactions Transaction[]
+}
+
+model VehicleBrand {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  active    Boolean        @default(true)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  vehicles  Vehicle[]
+  models    VehicleModel[]
+}
+
+model VehicleCategory {
+  id          Int            @id @default(autoincrement())
+  name        String
+  vehicleType VehicleType
+  price       Int
+  active      Boolean        @default(true)
+  description String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  vehicles    Vehicle[]
+  models      VehicleModel[]
+
+  @@unique([name, vehicleType])
+  @@index([vehicleType])
+  @@index([active])
+}
+
+model VehicleModel {
+  id          Int             @id @default(autoincrement())
+  brandId     Int
+  name        String
+  vehicleType VehicleType
+  categoryId  Int
+  active      Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  vehicles    Vehicle[]
+  category    VehicleCategory @relation(fields: [categoryId], references: [id])
+  brand       VehicleBrand    @relation(fields: [brandId], references: [id])
+
+  @@unique([brandId, name])
+  @@index([brandId])
+  @@index([categoryId])
+  @@index([vehicleType])
+}
+
+model Vehicle {
+  id           Int             @id @default(autoincrement())
+  licensePlate String          @unique
+  brandId      Int
+  modelId      Int
+  categoryId   Int
+  vehicleType  VehicleType
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  transactions Transaction[]
+  category     VehicleCategory @relation(fields: [categoryId], references: [id])
+  model        VehicleModel    @relation(fields: [modelId], references: [id])
+  brand        VehicleBrand    @relation(fields: [brandId], references: [id])
+
+  @@index([brandId])
+  @@index([modelId])
+  @@index([categoryId])
+}
+
+model Transaction {
+  id                   Int               @id @default(autoincrement())
+  transactionNumber    String            @unique
+  vehicleId            Int?
+  employeeId           Int
+  licensePlateSnapshot String?
+  brandSnapshot        String?
+  modelSnapshot        String?
+  categorySnapshot     String
+  vehicleType          VehicleType
+  price                Int
+  employeeResult       Int
+  status               TransactionStatus @default(COMPLETED)
+  printStatus          PrintStatus       @default(NOT_PRINTED)
+  printedAt            DateTime?
+  printAttemptCount    Int               @default(0)
+  lastPrintError       String?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  employee             User              @relation(fields: [employeeId], references: [id])
+  vehicle              Vehicle?          @relation(fields: [vehicleId], references: [id])
+
+  @@index([createdAt])
+  @@index([employeeId])
+  @@index([vehicleId])
+  @@index([status])
+  @@index([vehicleType])
+  @@index([printStatus])
+}
+
+model EmployeeCompensation {
+  id          Int         @id @default(autoincrement())
+  vehicleType VehicleType @unique
+  amount      Int
+  active      Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Expense {
+  id            Int             @id @default(autoincrement())
+  expenseNumber String          @unique
+  expenseDate   DateTime
+  category      ExpenseCategory
+  description   String?
+  amount        Int
+  createdById   Int
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  createdBy     User            @relation(fields: [createdById], references: [id])
+
+  @@index([expenseDate])
+  @@index([category])
+  @@index([createdById])
+}
+
+model Printer {
+  id                          Int                   @id @default(autoincrement())
+  name                        String
+  connectionType              PrinterConnectionType
+  paperWidth                  Int
+  isDefault                   Boolean               @default(false)
+  isActive                    Boolean               @default(true)
+  createdAt                   DateTime              @default(now())
+  updatedAt                   DateTime              @updatedAt
+  bluetoothDeviceId           String?
+  bluetoothServiceUuid        String?
+  bluetoothCharacteristicUuid String?
+  bluetoothWriteMode          String?
+
+  @@index([isDefault])
+  @@index([isActive])
+  @@index([bluetoothDeviceId])
+}
+
+model BusinessProfile {
+  id           Int      @id @default(autoincrement())
+  businessName String
+  address      String
+  postalCode   String?
+  phone        String
+  whatsapp     String?
+  socialMedia  String?
+  logo         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ReceiptSetting {
+  id               Int      @id @default(autoincrement())
+  paperWidth       Int      @default(58)
+  showBusinessName Boolean  @default(true)
+  showAddress      Boolean  @default(true)
+  showPhone        Boolean  @default(true)
+  footerText       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
+}
+
+model WashPrice {
+  id        Int      @id @default(autoincrement())
+  category  String   @unique
+  price     Int
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum UserRole {
+  OWNER
+  KARYAWAN
+}
+
+enum VehicleType {
+  MOTOR
+  MOBIL
+}
+
+enum TransactionStatus {
+  COMPLETED
+}
+
+enum PrintStatus {
+  NOT_PRINTED
+  PRINTING
+  PRINTED
+  PRINT_FAILED
+}
+
+enum PrinterConnectionType {
+  BLUETOOTH
+  USB
+  NETWORK
+}
+
+enum ExpenseCategory {
+  LISTRIK
+  AIR
+  CHEMICAL_SABUN
+  PERAWATAN_ALAT
+  PERLENGKAPAN
+  SEWA
+  GAJI_UPAH
+  OPERASIONAL
+  LAINNYA
+}

@@ -1,0 +1,213 @@
+
+enum UserRole {
+  OWNER
+  KARYAWAN
+}
+
+enum VehicleType {
+  MOTOR
+  MOBIL
+}
+
+enum TransactionStatus {
+  COMPLETED
+}
+
+enum PrintStatus {
+  NOT_PRINTED
+  PRINTING
+  PRINTED
+  PRINT_FAILED
+}
+
+enum PrinterConnectionType {
+  BLUETOOTH
+  USB
+  NETWORK
+}
+
+enum ExpenseCategory {
+  LISTRIK
+  AIR
+  CHEMICAL_SABUN
+  PERAWATAN_ALAT
+  PERLENGKAPAN
+  SEWA
+  GAJI_UPAH
+  OPERASIONAL
+  LAINNYA
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  username     String   @unique
+  passwordHash String
+  role         UserRole
+  active       Int  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(temporal.updatedAt())
+
+  transactions Transaction[]
+  expenses     Expense[]
+}
+
+model VehicleBrand {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  active    Int  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(temporal.updatedAt())
+
+  models   VehicleModel[]
+  vehicles Vehicle[]
+}
+
+model VehicleCategory {
+  id          Int         @id @default(autoincrement())
+  name        String
+  vehicleType VehicleType
+  price       Int
+  active      Int     @default(true)
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(temporal.updatedAt())
+
+  models   VehicleModel[]
+  vehicles Vehicle[]
+
+  @@unique([name, vehicleType])
+  @@index([vehicleType])
+  @@index([active])
+}
+
+model VehicleModel {
+  id          Int         @id @default(autoincrement())
+  brandId     Int
+  name        String
+  vehicleType VehicleType
+  categoryId  Int
+  active      Int     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(temporal.updatedAt())
+
+  brand     VehicleBrand    @relation(fields: [brandId], references: [id])
+  category  VehicleCategory @relation(fields: [categoryId], references: [id])
+  vehicles  Vehicle[]
+
+  @@unique([brandId, name])
+  @@index([brandId])
+  @@index([categoryId])
+  @@index([vehicleType])
+}
+
+model Vehicle {
+  id           Int         @id @default(autoincrement())
+  licensePlate String      @unique
+  brandId      Int
+  modelId      Int
+  categoryId   Int
+  vehicleType  VehicleType
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(temporal.updatedAt())
+
+  brand        VehicleBrand    @relation(fields: [brandId], references: [id])
+  model        VehicleModel     @relation(fields: [modelId], references: [id])
+  category     VehicleCategory  @relation(fields: [categoryId], references: [id])
+  transactions Transaction[]
+
+  @@index([brandId])
+  @@index([modelId])
+  @@index([categoryId])
+}
+
+model Transaction {
+  id                    Int               @id @default(autoincrement())
+  transactionNumber     String            @unique
+  vehicleId             Int
+  employeeId            Int
+
+  licensePlateSnapshot  String
+  brandSnapshot         String
+  modelSnapshot         String
+  categorySnapshot      String
+  vehicleType           VehicleType
+
+  price                 Int
+  employeeResult        Int
+
+  status                TransactionStatus @default(COMPLETED)
+
+  printStatus           PrintStatus       @default(NOT_PRINTED)
+  printedAt             DateTime?
+  printAttemptCount     Int               @default(0)
+  lastPrintError        String?
+
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @default(temporal.updatedAt())
+
+  vehicle               Vehicle           @relation(fields: [vehicleId], references: [id])
+  employee              User              @relation(fields: [employeeId], references: [id])
+
+  @@index([createdAt])
+  @@index([employeeId])
+  @@index([vehicleId])
+  @@index([status])
+  @@index([vehicleType])
+  @@index([printStatus])
+}
+
+model EmployeeCompensation {
+  id          Int         @id @default(autoincrement())
+  vehicleType VehicleType @unique
+  amount      Int
+  active      Int     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(temporal.updatedAt())
+}
+
+model Expense {
+  id            Int            @id @default(autoincrement())
+  expenseNumber String         @unique
+  expenseDate   DateTime
+  category      ExpenseCategory
+  description   String?
+  amount        Int
+  createdById   Int
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(temporal.updatedAt())
+
+  createdBy User @relation(fields: [createdById], references: [id])
+
+  @@index([expenseDate])
+  @@index([category])
+  @@index([createdById])
+}
+
+model Printer {
+  id               Int                    @id @default(autoincrement())
+  name             String
+  connectionType   PrinterConnectionType
+  paperWidth       Int
+  isDefault        Int                @default(false)
+  isActive         Int                @default(true)
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @default(temporal.updatedAt())
+
+  @@index([isDefault])
+  @@index([isActive])
+}
+
+model BusinessProfile {
+  id          Int      @id @default(autoincrement())
+  businessName String
+  address     String
+  postalCode  String?
+  phone       String
+  whatsapp    String?
+  socialMedia String?
+  logo        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(temporal.updatedAt())
+}
+
