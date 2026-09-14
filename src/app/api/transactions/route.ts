@@ -123,8 +123,7 @@ export async function POST(request: Request) {
     });
 
     const transactionNumber =
-      `TRX-${datePart}-` +
-      String(transactionCount + 1).padStart(4, "0");
+  `TRX-${datePart}-${randomUUID().replace(/-/g, "").slice(0, 8).toUpperCase()}`;
 
     const transaction = await prisma.transaction.create({
       data: {
