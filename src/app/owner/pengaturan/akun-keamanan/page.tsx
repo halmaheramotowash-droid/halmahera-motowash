@@ -216,10 +216,10 @@ export default function AkunKeamananPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black px-4 py-6 text-white">
+      <main className="min-h-screen bg-[#070b14] px-4 py-6 text-white">
         <div className="mx-auto max-w-md">
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 text-center">
-            <p className="text-sm font-bold text-zinc-400">
+          <div className="rounded-2xl border border-red-950/70 bg-gradient-to-br from-[#25111a] via-[#151522] to-[#0d1929] p-6 text-center shadow-xl shadow-black/30">
+            <p className="text-sm font-bold text-slate-400">
               Memuat data akun...
             </p>
           </div>
@@ -229,27 +229,24 @@ export default function AkunKeamananPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-4 py-6 text-white">
+    <main className="min-h-screen bg-[#070b14] px-4 py-6 text-white">
       <div className="mx-auto max-w-md">
-
         {/* HEADER */}
         <div className="mb-6 flex items-center justify-between">
           <button
             type="button"
-            onClick={() =>
-              router.push("/owner/pengaturan")
-            }
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600 text-xl font-black text-white shadow-lg transition active:scale-[0.95]"
+            onClick={() => router.push("/owner/pengaturan")}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600 text-xl font-black text-white shadow-lg shadow-red-950/30 transition hover:bg-red-500 active:scale-[0.95]"
           >
             ←
           </button>
 
           <div className="text-center">
-            <h1 className="text-lg font-black tracking-wide">
+            <h1 className="text-lg font-black tracking-wide text-white">
               AKUN & KEAMANAN
             </h1>
 
-            <p className="mt-1 text-[10px] font-bold text-zinc-500">
+            <p className="mt-1 text-[10px] font-bold tracking-widest text-slate-500">
               HALMAHERA MOTOWASH
             </p>
           </div>
@@ -259,8 +256,8 @@ export default function AkunKeamananPage() {
 
         {/* ERROR */}
         {error && (
-          <div className="mb-4 rounded-2xl border border-red-900 bg-red-950/40 p-4">
-            <p className="text-sm font-bold text-red-400">
+          <div className="mb-4 rounded-2xl border border-red-800/80 bg-gradient-to-r from-red-950/70 to-[#171522] p-4 shadow-lg shadow-black/20">
+            <p className="text-sm font-bold text-red-300">
               {error}
             </p>
           </div>
@@ -268,21 +265,21 @@ export default function AkunKeamananPage() {
 
         {/* SUCCESS */}
         {message && (
-          <div className="mb-4 rounded-2xl border border-green-900 bg-green-950/40 p-4">
-            <p className="text-sm font-bold text-green-400">
+          <div className="mb-4 rounded-2xl border border-emerald-800/80 bg-gradient-to-r from-emerald-950/70 to-[#101c24] p-4 shadow-lg shadow-black/20">
+            <p className="text-sm font-bold text-emerald-300">
               {message}
             </p>
           </div>
         )}
 
         {/* PROFIL AKUN */}
-        <section className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5 shadow-lg">
+        <section className="rounded-2xl border border-red-900/70 bg-gradient-to-br from-[#3b111a] via-[#21131e] to-[#101c2d] p-5 shadow-xl shadow-black/30">
           <div className="mb-5">
-            <h2 className="text-sm font-black tracking-wide">
+            <h2 className="text-sm font-black tracking-wide text-white">
               PROFIL AKUN
             </h2>
 
-            <p className="mt-1 text-xs text-zinc-500">
+            <p className="mt-1 text-xs text-slate-400">
               Kelola informasi akun Owner.
             </p>
           </div>
@@ -291,7 +288,7 @@ export default function AkunKeamananPage() {
           <div className="mb-4">
             <label
               htmlFor="name"
-              className="mb-2 block text-xs font-bold text-zinc-400"
+              className="mb-2 block text-xs font-bold text-slate-300"
             >
               Nama
             </label>
@@ -300,10 +297,8 @@ export default function AkunKeamananPage() {
               id="name"
               type="text"
               value={name}
-              onChange={(event) =>
-                setName(event.target.value)
-              }
-              className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-sm text-white outline-none transition focus:border-red-600"
+              onChange={(event) => setName(event.target.value)}
+              className="w-full rounded-xl border border-slate-700 bg-[#070b14] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-red-500"
               placeholder="Nama Owner"
             />
           </div>
@@ -312,7 +307,7 @@ export default function AkunKeamananPage() {
           <div className="mb-4">
             <label
               htmlFor="username"
-              className="mb-2 block text-xs font-bold text-zinc-400"
+              className="mb-2 block text-xs font-bold text-slate-300"
             >
               Username
             </label>
@@ -324,19 +319,19 @@ export default function AkunKeamananPage() {
               onChange={(event) =>
                 setUsername(event.target.value)
               }
-              className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-sm text-white outline-none transition focus:border-red-600"
+              className="w-full rounded-xl border border-slate-700 bg-[#070b14] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-red-500"
               placeholder="Username"
             />
           </div>
 
           {/* ROLE */}
           <div className="mb-5">
-            <p className="mb-2 text-xs font-bold text-zinc-400">
+            <p className="mb-2 text-xs font-bold text-slate-300">
               Role
             </p>
 
-            <div className="rounded-xl border border-zinc-800 bg-black px-4 py-3">
-              <span className="text-sm font-black text-red-500">
+            <div className="rounded-xl border border-slate-700 bg-[#070b14] px-4 py-3">
+              <span className="text-sm font-black text-red-400">
                 {user?.role}
               </span>
             </div>
@@ -344,16 +339,16 @@ export default function AkunKeamananPage() {
 
           {/* STATUS */}
           <div className="mb-5">
-            <p className="mb-2 text-xs font-bold text-zinc-400">
+            <p className="mb-2 text-xs font-bold text-slate-300">
               Status Akun
             </p>
 
-            <div className="rounded-xl border border-zinc-800 bg-black px-4 py-3">
+            <div className="rounded-xl border border-slate-700 bg-[#070b14] px-4 py-3">
               <span
                 className={
                   user?.active
-                    ? "text-sm font-bold text-green-500"
-                    : "text-sm font-bold text-red-500"
+                    ? "text-sm font-bold text-emerald-400"
+                    : "text-sm font-bold text-red-400"
                 }
               >
                 {user?.active ? "AKTIF" : "NONAKTIF"}
@@ -366,22 +361,20 @@ export default function AkunKeamananPage() {
             type="button"
             onClick={handleSave}
             disabled={saving}
-            className="w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-black text-white shadow-lg transition hover:bg-red-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-xl bg-red-600 px-4 py-3 text-sm font-black text-white shadow-lg shadow-red-950/30 transition hover:bg-red-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {saving
-              ? "MENYIMPAN..."
-              : "SIMPAN PERUBAHAN"}
+            {saving ? "MENYIMPAN..." : "SIMPAN PERUBAHAN"}
           </button>
         </section>
 
         {/* KEAMANAN PASSWORD */}
-        <section className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-950 p-5 shadow-lg">
+        <section className="mt-4 rounded-2xl border border-red-900/70 bg-gradient-to-br from-[#30111a] via-[#191421] to-[#0e1a2b] p-5 shadow-xl shadow-black/30">
           <div className="mb-5">
-            <h2 className="text-sm font-black tracking-wide">
+            <h2 className="text-sm font-black tracking-wide text-white">
               KEAMANAN PASSWORD
             </h2>
 
-            <p className="mt-1 text-xs leading-relaxed text-zinc-500">
+            <p className="mt-1 text-xs leading-relaxed text-slate-400">
               Gunakan password lama untuk memverifikasi
               perubahan password.
             </p>
@@ -391,7 +384,7 @@ export default function AkunKeamananPage() {
           <div className="mb-4">
             <label
               htmlFor="currentPassword"
-              className="mb-2 block text-xs font-bold text-zinc-400"
+              className="mb-2 block text-xs font-bold text-slate-300"
             >
               Password Lama
             </label>
@@ -403,7 +396,7 @@ export default function AkunKeamananPage() {
               onChange={(event) =>
                 setCurrentPassword(event.target.value)
               }
-              className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-sm text-white outline-none transition focus:border-red-600"
+              className="w-full rounded-xl border border-slate-700 bg-[#070b14] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-red-500"
               placeholder="Masukkan password lama"
               autoComplete="current-password"
             />
@@ -413,7 +406,7 @@ export default function AkunKeamananPage() {
           <div className="mb-4">
             <label
               htmlFor="newPassword"
-              className="mb-2 block text-xs font-bold text-zinc-400"
+              className="mb-2 block text-xs font-bold text-slate-300"
             >
               Password Baru
             </label>
@@ -425,7 +418,7 @@ export default function AkunKeamananPage() {
               onChange={(event) =>
                 setNewPassword(event.target.value)
               }
-              className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-sm text-white outline-none transition focus:border-red-600"
+              className="w-full rounded-xl border border-slate-700 bg-[#070b14] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-red-500"
               placeholder="Minimal 6 karakter"
               autoComplete="new-password"
             />
@@ -435,7 +428,7 @@ export default function AkunKeamananPage() {
           <div className="mb-5">
             <label
               htmlFor="confirmPassword"
-              className="mb-2 block text-xs font-bold text-zinc-400"
+              className="mb-2 block text-xs font-bold text-slate-300"
             >
               Konfirmasi Password Baru
             </label>
@@ -447,7 +440,7 @@ export default function AkunKeamananPage() {
               onChange={(event) =>
                 setConfirmPassword(event.target.value)
               }
-              className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-sm text-white outline-none transition focus:border-red-600"
+              className="w-full rounded-xl border border-slate-700 bg-[#070b14] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-red-500"
               placeholder="Ulangi password baru"
               autoComplete="new-password"
             />
@@ -458,7 +451,7 @@ export default function AkunKeamananPage() {
             type="button"
             onClick={handleChangePassword}
             disabled={changingPassword}
-            className="w-full rounded-xl border border-red-600 bg-red-600 px-4 py-3 text-sm font-black text-white shadow-lg transition hover:bg-red-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-xl border border-red-500 bg-red-600 px-4 py-3 text-sm font-black text-white shadow-lg shadow-red-950/30 transition hover:bg-red-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {changingPassword
               ? "MENGUBAH PASSWORD..."
@@ -467,16 +460,15 @@ export default function AkunKeamananPage() {
         </section>
 
         {/* FOOTER */}
-        <div className="mt-6 rounded-2xl border border-zinc-900 bg-zinc-950 p-4 text-center">
-          <p className="text-[10px] font-bold tracking-widest text-zinc-600">
+        <div className="mt-6 rounded-2xl border border-slate-800/80 bg-gradient-to-br from-[#111827] to-[#0b1220] p-4 text-center">
+          <p className="text-[10px] font-bold tracking-widest text-slate-600">
             HALMAHERA MOTOWASH
           </p>
 
-          <p className="mt-1 text-[10px] text-zinc-700">
+          <p className="mt-1 text-[10px] text-slate-700">
             Pengaturan Akun Owner
           </p>
         </div>
-
       </div>
     </main>
   );

@@ -64,3 +64,14 @@ export const ExpenseCategory = {
 } as const
 
 export type ExpenseCategory = (typeof ExpenseCategory)[keyof typeof ExpenseCategory]
+
+
+export const SubscriptionStatus = {
+  TRIAL: 'TRIAL',
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CANCELED: 'CANCELED',
+  UNLIMITED: 'UNLIMITED'
+} as const
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]

@@ -447,10 +447,6 @@ export type EnumVehicleTypeFieldUpdateOperationsInput = {
   set?: $Enums.VehicleType
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type VehicleCategoryCreateNestedOneWithoutModelsInput = {
   create?: Prisma.XOR<Prisma.VehicleCategoryCreateWithoutModelsInput, Prisma.VehicleCategoryUncheckedCreateWithoutModelsInput>
   connectOrCreate?: Prisma.VehicleCategoryCreateOrConnectWithoutModelsInput

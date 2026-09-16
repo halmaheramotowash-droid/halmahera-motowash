@@ -253,9 +253,9 @@ export type VehicleWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
   transactions?: Prisma.TransactionListRelationFilter
+  brand?: Prisma.XOR<Prisma.VehicleBrandScalarRelationFilter, Prisma.VehicleBrandWhereInput>
   category?: Prisma.XOR<Prisma.VehicleCategoryScalarRelationFilter, Prisma.VehicleCategoryWhereInput>
   model?: Prisma.XOR<Prisma.VehicleModelScalarRelationFilter, Prisma.VehicleModelWhereInput>
-  brand?: Prisma.XOR<Prisma.VehicleBrandScalarRelationFilter, Prisma.VehicleBrandWhereInput>
 }
 
 export type VehicleOrderByWithRelationInput = {
@@ -268,9 +268,9 @@ export type VehicleOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  brand?: Prisma.VehicleBrandOrderByWithRelationInput
   category?: Prisma.VehicleCategoryOrderByWithRelationInput
   model?: Prisma.VehicleModelOrderByWithRelationInput
-  brand?: Prisma.VehicleBrandOrderByWithRelationInput
 }
 
 export type VehicleWhereUniqueInput = Prisma.AtLeast<{
@@ -286,9 +286,9 @@ export type VehicleWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
   transactions?: Prisma.TransactionListRelationFilter
+  brand?: Prisma.XOR<Prisma.VehicleBrandScalarRelationFilter, Prisma.VehicleBrandWhereInput>
   category?: Prisma.XOR<Prisma.VehicleCategoryScalarRelationFilter, Prisma.VehicleCategoryWhereInput>
   model?: Prisma.XOR<Prisma.VehicleModelScalarRelationFilter, Prisma.VehicleModelWhereInput>
-  brand?: Prisma.XOR<Prisma.VehicleBrandScalarRelationFilter, Prisma.VehicleBrandWhereInput>
 }, "id" | "licensePlate">
 
 export type VehicleOrderByWithAggregationInput = {
@@ -327,9 +327,9 @@ export type VehicleCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   transactions?: Prisma.TransactionCreateNestedManyWithoutVehicleInput
+  brand: Prisma.VehicleBrandCreateNestedOneWithoutVehiclesInput
   category: Prisma.VehicleCategoryCreateNestedOneWithoutVehiclesInput
   model: Prisma.VehicleModelCreateNestedOneWithoutVehiclesInput
-  brand: Prisma.VehicleBrandCreateNestedOneWithoutVehiclesInput
 }
 
 export type VehicleUncheckedCreateInput = {
@@ -350,9 +350,9 @@ export type VehicleUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUpdateManyWithoutVehicleNestedInput
+  brand?: Prisma.VehicleBrandUpdateOneRequiredWithoutVehiclesNestedInput
   category?: Prisma.VehicleCategoryUpdateOneRequiredWithoutVehiclesNestedInput
   model?: Prisma.VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput
-  brand?: Prisma.VehicleBrandUpdateOneRequiredWithoutVehiclesNestedInput
 }
 
 export type VehicleUncheckedUpdateInput = {
@@ -667,8 +667,8 @@ export type VehicleCreateWithoutCategoryInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   transactions?: Prisma.TransactionCreateNestedManyWithoutVehicleInput
-  model: Prisma.VehicleModelCreateNestedOneWithoutVehiclesInput
   brand: Prisma.VehicleBrandCreateNestedOneWithoutVehiclesInput
+  model: Prisma.VehicleModelCreateNestedOneWithoutVehiclesInput
 }
 
 export type VehicleUncheckedCreateWithoutCategoryInput = {
@@ -714,8 +714,8 @@ export type VehicleCreateWithoutModelInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   transactions?: Prisma.TransactionCreateNestedManyWithoutVehicleInput
-  category: Prisma.VehicleCategoryCreateNestedOneWithoutVehiclesInput
   brand: Prisma.VehicleBrandCreateNestedOneWithoutVehiclesInput
+  category: Prisma.VehicleCategoryCreateNestedOneWithoutVehiclesInput
 }
 
 export type VehicleUncheckedCreateWithoutModelInput = {
@@ -760,9 +760,9 @@ export type VehicleCreateWithoutTransactionsInput = {
   vehicleType: $Enums.VehicleType
   createdAt?: Date | string
   updatedAt?: Date | string
+  brand: Prisma.VehicleBrandCreateNestedOneWithoutVehiclesInput
   category: Prisma.VehicleCategoryCreateNestedOneWithoutVehiclesInput
   model: Prisma.VehicleModelCreateNestedOneWithoutVehiclesInput
-  brand: Prisma.VehicleBrandCreateNestedOneWithoutVehiclesInput
 }
 
 export type VehicleUncheckedCreateWithoutTransactionsInput = {
@@ -797,9 +797,9 @@ export type VehicleUpdateWithoutTransactionsInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  brand?: Prisma.VehicleBrandUpdateOneRequiredWithoutVehiclesNestedInput
   category?: Prisma.VehicleCategoryUpdateOneRequiredWithoutVehiclesNestedInput
   model?: Prisma.VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput
-  brand?: Prisma.VehicleBrandUpdateOneRequiredWithoutVehiclesNestedInput
 }
 
 export type VehicleUncheckedUpdateWithoutTransactionsInput = {
@@ -870,8 +870,8 @@ export type VehicleUpdateWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUpdateManyWithoutVehicleNestedInput
-  model?: Prisma.VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput
   brand?: Prisma.VehicleBrandUpdateOneRequiredWithoutVehiclesNestedInput
+  model?: Prisma.VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput
 }
 
 export type VehicleUncheckedUpdateWithoutCategoryInput = {
@@ -911,8 +911,8 @@ export type VehicleUpdateWithoutModelInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUpdateManyWithoutVehicleNestedInput
-  category?: Prisma.VehicleCategoryUpdateOneRequiredWithoutVehiclesNestedInput
   brand?: Prisma.VehicleBrandUpdateOneRequiredWithoutVehiclesNestedInput
+  category?: Prisma.VehicleCategoryUpdateOneRequiredWithoutVehiclesNestedInput
 }
 
 export type VehicleUncheckedUpdateWithoutModelInput = {
@@ -977,9 +977,9 @@ export type VehicleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   transactions?: boolean | Prisma.Vehicle$transactionsArgs<ExtArgs>
+  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   category?: boolean | Prisma.VehicleCategoryDefaultArgs<ExtArgs>
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
-  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VehicleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicle"]>
 
@@ -992,9 +992,9 @@ export type VehicleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   vehicleType?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   category?: boolean | Prisma.VehicleCategoryDefaultArgs<ExtArgs>
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
-  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicle"]>
 
 export type VehicleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1006,9 +1006,9 @@ export type VehicleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   vehicleType?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   category?: boolean | Prisma.VehicleCategoryDefaultArgs<ExtArgs>
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
-  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicle"]>
 
 export type VehicleSelectScalar = {
@@ -1025,29 +1025,29 @@ export type VehicleSelectScalar = {
 export type VehicleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "licensePlate" | "brandId" | "modelId" | "categoryId" | "vehicleType" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
 export type VehicleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   transactions?: boolean | Prisma.Vehicle$transactionsArgs<ExtArgs>
+  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   category?: boolean | Prisma.VehicleCategoryDefaultArgs<ExtArgs>
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
-  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VehicleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VehicleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   category?: boolean | Prisma.VehicleCategoryDefaultArgs<ExtArgs>
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
-  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
 }
 export type VehicleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
   category?: boolean | Prisma.VehicleCategoryDefaultArgs<ExtArgs>
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
-  brand?: boolean | Prisma.VehicleBrandDefaultArgs<ExtArgs>
 }
 
 export type $VehiclePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Vehicle"
   objects: {
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    brand: Prisma.$VehicleBrandPayload<ExtArgs>
     category: Prisma.$VehicleCategoryPayload<ExtArgs>
     model: Prisma.$VehicleModelPayload<ExtArgs>
-    brand: Prisma.$VehicleBrandPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1453,9 +1453,9 @@ readonly fields: VehicleFieldRefs;
 export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   transactions<T extends Prisma.Vehicle$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehicle$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  brand<T extends Prisma.VehicleBrandDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VehicleBrandDefaultArgs<ExtArgs>>): Prisma.Prisma__VehicleBrandClient<runtime.Types.Result.GetResult<Prisma.$VehicleBrandPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.VehicleCategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VehicleCategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__VehicleCategoryClient<runtime.Types.Result.GetResult<Prisma.$VehicleCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   model<T extends Prisma.VehicleModelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VehicleModelDefaultArgs<ExtArgs>>): Prisma.Prisma__VehicleModelClient<runtime.Types.Result.GetResult<Prisma.$VehicleModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  brand<T extends Prisma.VehicleBrandDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VehicleBrandDefaultArgs<ExtArgs>>): Prisma.Prisma__VehicleBrandClient<runtime.Types.Result.GetResult<Prisma.$VehicleBrandPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

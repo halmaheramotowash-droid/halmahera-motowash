@@ -15,9 +15,7 @@ export default function TambahKaryawanPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setError("");
@@ -41,28 +39,22 @@ export default function TambahKaryawanPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "/api/karyawan",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            username,
-            password,
-          }),
-        }
-      );
+      const response = await fetch("/api/karyawan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          username,
+          password,
+        }),
+      });
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        setError(
-          data.error ??
-            "Gagal menambahkan karyawan."
-        );
+        setError(data.error ?? "Gagal menambahkan karyawan.");
         return;
       }
 
@@ -83,185 +75,262 @@ export default function TambahKaryawanPage() {
         router.refresh();
       }, 1500);
     } catch (error) {
-      console.error(
-        "Tambah karyawan error:",
-        error
-      );
+      console.error("Tambah karyawan error:", error);
 
-      setError(
-        "Tidak dapat terhubung ke server."
-      );
+      setError("Tidak dapat terhubung ke server.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="mx-auto min-h-screen max-w-md bg-black px-5 pb-10">
-
-        <header className="border-b border-red-900/40 py-6">
+    <main className="min-h-screen bg-[#05080d] text-white">
+      <div className="mx-auto min-h-screen w-full max-w-4xl px-4 pb-10 sm:px-6 lg:px-8">
+        {/* Header */}
+        <header className="flex items-center justify-between border-b border-white/10 py-5 sm:py-6">
           <div className="flex items-center gap-3">
-
             <Link
               href="/owner/karyawan"
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 text-xl"
+              aria-label="Kembali ke daftar karyawan"
+              className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-xl text-zinc-200 transition hover:border-red-500/50 hover:bg-red-500/10 hover:text-white active:scale-95"
             >
               ←
             </Link>
 
             <div>
-              <p className="text-xs font-bold tracking-widest text-red-500">
-                OWNER
+              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-red-500 sm:text-xs">
+                Owner Panel
               </p>
 
-              <h1 className="text-xl font-black">
-                TAMBAH KARYAWAN
+              <h1 className="mt-1 text-lg font-black tracking-tight sm:text-2xl">
+                Tambah Karyawan
               </h1>
             </div>
+          </div>
 
+          <div className="hidden h-11 w-11 items-center justify-center rounded-2xl bg-red-600 text-lg font-black shadow-lg shadow-red-950/30 sm:flex">
+            D
           </div>
         </header>
 
-        <section className="mt-5">
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
+        {/* Intro */}
+        <section className="mt-6">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-red-950/40 via-zinc-950 to-zinc-950 p-5 sm:p-7">
+            <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-red-600/10 blur-3xl" />
 
-            <p className="text-xs font-bold tracking-widest text-red-500">
-              AKUN BARU
-            </p>
+            <div className="relative">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-red-500/20 bg-red-600/15 text-2xl">
+                👤
+              </div>
 
-            <h2 className="mt-1 text-xl font-black">
-              Data Karyawan
-            </h2>
+              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-red-500 sm:text-xs">
+                Akun Baru
+              </p>
 
-            <p className="mt-1 text-sm text-zinc-500">
-              Masukkan data akun karyawan baru.
-            </p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
+                Buat Akun Karyawan
+              </h2>
 
+              <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-400">
+                Masukkan data karyawan untuk membuat akun baru yang dapat
+                digunakan untuk masuk ke dalam sistem kasir.
+              </p>
+            </div>
           </div>
         </section>
 
+        {/* Success notification */}
         {success && (
-          <div className="mt-4 rounded-2xl border border-green-900/60 bg-green-950/30 p-5">
-            <p className="text-xs font-black tracking-widest text-green-400">
-              BERHASIL
-            </p>
+          <section
+            role="status"
+            className="mt-5 rounded-3xl border border-emerald-500/25 bg-emerald-950/25 p-5"
+          >
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-lg text-emerald-400">
+                ✓
+              </div>
 
-            <p className="mt-2 whitespace-pre-line text-sm font-bold text-green-300">
-              {success}
-            </p>
+              <div className="min-w-0">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-400">
+                  Berhasil
+                </p>
 
-            <p className="mt-3 text-xs text-green-500">
-              Mengarahkan ke daftar karyawan...
-            </p>
-          </div>
+                <p className="mt-2 whitespace-pre-line text-sm font-bold leading-6 text-emerald-200">
+                  {success}
+                </p>
+
+                <p className="mt-3 text-xs text-emerald-400/80">
+                  Mengarahkan ke daftar karyawan...
+                </p>
+              </div>
+            </div>
+          </section>
         )}
 
-        <form
-          onSubmit={handleSubmit}
-          className="mt-4 space-y-4"
-        >
+        {/* Form card */}
+        <section className="mt-5 rounded-3xl border border-white/10 bg-zinc-950/80 p-5 shadow-2xl shadow-black/20 sm:p-7">
+          <div className="mb-6">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-red-500 sm:text-xs">
+              Informasi Login
+            </p>
 
-          <div>
-            <label
-              htmlFor="name"
-              className="text-sm font-bold text-zinc-300"
-            >
-              NAMA
-            </label>
+            <h3 className="mt-2 text-xl font-black tracking-tight sm:text-2xl">
+              Data Akun
+            </h3>
 
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={name}
-              onChange={(event) =>
-                setName(event.target.value)
-              }
-              placeholder="Contoh: Andi Saputra"
-              autoComplete="name"
-              disabled={loading || !!success}
-              className="mt-2 w-full rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-4 text-white outline-none placeholder:text-zinc-600 focus:border-red-600 disabled:cursor-not-allowed disabled:opacity-50"
-              required
-            />
+            <p className="mt-2 text-sm leading-6 text-zinc-500">
+              Pastikan data yang dimasukkan benar sebelum menyimpan akun.
+            </p>
           </div>
 
-          <div>
-            <label
-              htmlFor="username"
-              className="text-sm font-bold text-zinc-300"
-            >
-              USERNAME
-            </label>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Name */}
+            <div>
+              <label
+                htmlFor="name"
+                className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-zinc-300"
+              >
+                <span className="text-red-500">01</span>
+                Nama Karyawan
+              </label>
 
-            <input
-              id="username"
-              name="username"
-              type="text"
-              value={username}
-              onChange={(event) =>
-                setUsername(
-                  event.target.value
-                )
-              }
-              placeholder="Contoh: andi"
-              autoComplete="username"
-              disabled={loading || !!success}
-              className="mt-2 w-full rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-4 text-white outline-none placeholder:text-zinc-600 focus:border-red-600 disabled:cursor-not-allowed disabled:opacity-50"
-              required
-            />
-          </div>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Contoh: Andi Saputra"
+                autoComplete="name"
+                disabled={loading || !!success}
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-red-500 focus:bg-black/60 focus:ring-4 focus:ring-red-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+                required
+              />
 
-          <div>
-            <label
-              htmlFor="password"
-              className="text-sm font-bold text-zinc-300"
-            >
-              PASSWORD
-            </label>
-
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={(event) =>
-                setPassword(
-                  event.target.value
-                )
-              }
-              placeholder="Minimal 6 karakter"
-              autoComplete="new-password"
-              disabled={loading || !!success}
-              className="mt-2 w-full rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-4 text-white outline-none placeholder:text-zinc-600 focus:border-red-600 disabled:cursor-not-allowed disabled:opacity-50"
-              required
-            />
-          </div>
-
-          {error && (
-            <div className="rounded-2xl border border-red-900/50 bg-red-950/30 p-4">
-              <p className="text-xs font-black tracking-widest text-red-500">
-                GAGAL
-              </p>
-
-              <p className="mt-1 text-sm font-bold text-red-400">
-                {error}
+              <p className="mt-2 text-xs text-zinc-600">
+                Gunakan nama lengkap karyawan.
               </p>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading || !!success}
-            className="w-full rounded-2xl bg-red-600 px-5 py-4 text-sm font-black text-white transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading
-              ? "MENYIMPAN..."
-              : "SIMPAN KARYAWAN"}
-          </button>
+            {/* Username */}
+            <div>
+              <label
+                htmlFor="username"
+                className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-zinc-300"
+              >
+                <span className="text-red-500">02</span>
+                Username
+              </label>
 
-        </form>
+              <div className="relative mt-2">
+                <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-zinc-600">
+                  @
+                </span>
 
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  placeholder="Contoh: andi"
+                  autoComplete="username"
+                  disabled={loading || !!success}
+                  className="w-full rounded-2xl border border-white/10 bg-black/40 py-4 pl-9 pr-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-red-500 focus:bg-black/60 focus:ring-4 focus:ring-red-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+                  required
+                />
+              </div>
+
+              <p className="mt-2 text-xs text-zinc-600">
+                Username digunakan saat karyawan login.
+              </p>
+            </div>
+
+            {/* Password */}
+            <div>
+              <label
+                htmlFor="password"
+                className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-zinc-300"
+              >
+                <span className="text-red-500">03</span>
+                Password
+              </label>
+
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Minimal 6 karakter"
+                autoComplete="new-password"
+                disabled={loading || !!success}
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-red-500 focus:bg-black/60 focus:ring-4 focus:ring-red-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+                required
+              />
+
+              <p className="mt-2 text-xs text-zinc-600">
+                Gunakan password yang mudah diingat oleh karyawan tetapi
+                tidak mudah ditebak orang lain.
+              </p>
+            </div>
+
+            {/* Error notification */}
+            {error && (
+              <div
+                role="alert"
+                className="rounded-2xl border border-red-500/25 bg-red-950/30 p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-red-500/15 text-red-400">
+                    !
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-red-500">
+                      Gagal
+                    </p>
+
+                    <p className="mt-1 text-sm font-bold leading-6 text-red-300">
+                      {error}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row-reverse">
+              <button
+                type="submit"
+                disabled={loading || !!success}
+                className="flex min-h-[56px] w-full items-center justify-center rounded-2xl bg-red-600 px-5 text-sm font-black tracking-wide text-white shadow-lg shadow-red-950/30 transition hover:bg-red-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-1"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-3">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    MENYIMPAN...
+                  </span>
+                ) : (
+                  "SIMPAN KARYAWAN"
+                )}
+              </button>
+
+              <Link
+                href="/owner/karyawan"
+                className="flex min-h-[56px] w-full items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-sm font-black tracking-wide text-zinc-300 transition hover:border-white/20 hover:bg-white/[0.08] hover:text-white active:scale-[0.98] sm:w-40"
+              >
+                BATAL
+              </Link>
+            </div>
+          </form>
+        </section>
+
+        {/* Footer note */}
+        <div className="mt-5 flex items-center justify-center gap-2 text-center text-xs text-zinc-600">
+          <span>🔒</span>
+          <span>Data akun diproses melalui sistem Halmahera Motowash.</span>
+        </div>
       </div>
     </main>
   );

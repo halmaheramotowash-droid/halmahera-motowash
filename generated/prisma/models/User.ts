@@ -44,6 +44,11 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
+  email: string | null
+  emailVerified: boolean | null
+  subscriptionStatus: $Enums.SubscriptionStatus | null
+  trialEndsAt: Date | null
+  trialStartedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -56,6 +61,11 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
+  email: string | null
+  emailVerified: boolean | null
+  subscriptionStatus: $Enums.SubscriptionStatus | null
+  trialEndsAt: Date | null
+  trialStartedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -68,6 +78,11 @@ export type UserCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   deletedAt: number
+  email: number
+  emailVerified: number
+  subscriptionStatus: number
+  trialEndsAt: number
+  trialStartedAt: number
   _all: number
 }
 
@@ -90,6 +105,11 @@ export type UserMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
+  email?: true
+  emailVerified?: true
+  subscriptionStatus?: true
+  trialEndsAt?: true
+  trialStartedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -102,6 +122,11 @@ export type UserMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
+  email?: true
+  emailVerified?: true
+  subscriptionStatus?: true
+  trialEndsAt?: true
+  trialStartedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -114,6 +139,11 @@ export type UserCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
+  email?: true
+  emailVerified?: true
+  subscriptionStatus?: true
+  trialEndsAt?: true
+  trialStartedAt?: true
   _all?: true
 }
 
@@ -213,6 +243,11 @@ export type UserGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
+  email: string | null
+  emailVerified: boolean
+  subscriptionStatus: $Enums.SubscriptionStatus
+  trialEndsAt: Date | null
+  trialStartedAt: Date | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -248,6 +283,11 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  email?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFilter<"User"> | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  trialStartedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   expenses?: Prisma.ExpenseListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
 }
@@ -262,6 +302,11 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
 }
@@ -269,6 +314,7 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   username?: string
+  email?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -279,9 +325,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  emailVerified?: Prisma.BoolFilter<"User"> | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFilter<"User"> | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  trialStartedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   expenses?: Prisma.ExpenseListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
-}, "id" | "username">
+}, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -293,6 +343,11 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -313,6 +368,11 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  email?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusWithAggregatesFilter<"User"> | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  trialStartedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -324,6 +384,11 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  email?: string | null
+  emailVerified?: boolean
+  subscriptionStatus?: $Enums.SubscriptionStatus
+  trialEndsAt?: Date | string | null
+  trialStartedAt?: Date | string | null
   expenses?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutEmployeeInput
 }
@@ -338,6 +403,11 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  email?: string | null
+  emailVerified?: boolean
+  subscriptionStatus?: $Enums.SubscriptionStatus
+  trialEndsAt?: Date | string | null
+  trialStartedAt?: Date | string | null
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutEmployeeInput
 }
@@ -351,6 +421,11 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutEmployeeNestedInput
 }
@@ -365,6 +440,11 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutEmployeeNestedInput
 }
@@ -379,6 +459,11 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  email?: string | null
+  emailVerified?: boolean
+  subscriptionStatus?: $Enums.SubscriptionStatus
+  trialEndsAt?: Date | string | null
+  trialStartedAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -390,6 +475,11 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -402,6 +492,11 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -414,6 +509,11 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -430,6 +530,11 @@ export type UserMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -442,6 +547,11 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  emailVerified?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
+  trialStartedAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -471,6 +581,14 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.SubscriptionStatus
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -518,6 +636,11 @@ export type UserCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  email?: string | null
+  emailVerified?: boolean
+  subscriptionStatus?: $Enums.SubscriptionStatus
+  trialEndsAt?: Date | string | null
+  trialStartedAt?: Date | string | null
   expenses?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
 }
 
@@ -531,6 +654,11 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  email?: string | null
+  emailVerified?: boolean
+  subscriptionStatus?: $Enums.SubscriptionStatus
+  trialEndsAt?: Date | string | null
+  trialStartedAt?: Date | string | null
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -559,6 +687,11 @@ export type UserUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -572,6 +705,11 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -584,6 +722,11 @@ export type UserCreateWithoutExpensesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  email?: string | null
+  emailVerified?: boolean
+  subscriptionStatus?: $Enums.SubscriptionStatus
+  trialEndsAt?: Date | string | null
+  trialStartedAt?: Date | string | null
   transactions?: Prisma.TransactionCreateNestedManyWithoutEmployeeInput
 }
 
@@ -597,6 +740,11 @@ export type UserUncheckedCreateWithoutExpensesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  email?: string | null
+  emailVerified?: boolean
+  subscriptionStatus?: $Enums.SubscriptionStatus
+  trialEndsAt?: Date | string | null
+  trialStartedAt?: Date | string | null
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
@@ -625,6 +773,11 @@ export type UserUpdateWithoutExpensesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transactions?: Prisma.TransactionUpdateManyWithoutEmployeeNestedInput
 }
 
@@ -638,6 +791,11 @@ export type UserUncheckedUpdateWithoutExpensesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptionStatus?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
@@ -691,6 +849,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  subscriptionStatus?: boolean
+  trialEndsAt?: boolean
+  trialStartedAt?: boolean
   expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -706,6 +869,11 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  subscriptionStatus?: boolean
+  trialEndsAt?: boolean
+  trialStartedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -718,6 +886,11 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  subscriptionStatus?: boolean
+  trialEndsAt?: boolean
+  trialStartedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -730,9 +903,14 @@ export type UserSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  email?: boolean
+  emailVerified?: boolean
+  subscriptionStatus?: boolean
+  trialEndsAt?: boolean
+  trialStartedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "passwordHash" | "role" | "active" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "passwordHash" | "role" | "active" | "createdAt" | "updatedAt" | "deletedAt" | "email" | "emailVerified" | "subscriptionStatus" | "trialEndsAt" | "trialStartedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenses?: boolean | Prisma.User$expensesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
@@ -757,6 +935,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
+    email: string | null
+    emailVerified: boolean
+    subscriptionStatus: $Enums.SubscriptionStatus
+    trialEndsAt: Date | null
+    trialStartedAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1191,6 +1374,11 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly email: Prisma.FieldRef<"User", 'String'>
+  readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly subscriptionStatus: Prisma.FieldRef<"User", 'SubscriptionStatus'>
+  readonly trialEndsAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly trialStartedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 

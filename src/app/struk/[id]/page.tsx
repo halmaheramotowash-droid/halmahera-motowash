@@ -488,26 +488,6 @@ export default function StrukPage() {
     <>
       <main className="min-h-screen bg-zinc-100 px-4 py-6 text-black">
         <div className="mx-auto max-w-md">
-          {/* HEADER PREVIEW */}
-          <div className="mb-5 flex items-center justify-between print:hidden">
-            <button
-              type="button"
-              onClick={() =>
-                router.push(
-                  `/detail/${transaction.id}`
-                )
-              }
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600 text-xl font-black text-white shadow-lg transition active:scale-[0.95]"
-            >
-              ←
-            </button>
-
-            <h1 className="text-lg font-black">
-              PREVIEW STRUK
-            </h1>
-
-            <div className="w-10" />
-          </div>
 
           {/* STRUK */}
           <section className="rounded-2xl bg-white p-6 shadow-xl">
@@ -686,14 +666,14 @@ export default function StrukPage() {
               : "🖨️ CETAK STRUK"}
           </button>
 
-          {/* KEMBALI */}
-          <button
-            type="button"
-            onClick={() => router.push("/riwayat")}
-            className="mt-3 w-full rounded-2xl bg-zinc-900 px-4 py-4 text-sm font-black text-white transition active:scale-[0.98] print:hidden"
-          >
-            ← KEMBALI KE RIWAYAT
-          </button>
+          {/* KEMBALI KE MENU UTAMA */}
+<button
+  type="button"
+  onClick={() => router.push("/owner")}
+  className="mt-3 w-full rounded-2xl bg-zinc-900 px-4 py-4 text-sm font-black text-white transition active:scale-[0.98] print:hidden"
+>
+  ← KEMBALI KE MENU UTAMA
+</button>
 
           <p className="mt-4 text-center text-xs text-zinc-500 print:hidden">
             Tekan CETAK STRUK untuk membuka

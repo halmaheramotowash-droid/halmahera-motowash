@@ -5,8 +5,7 @@ const config: CapacitorConfig = {
   appName: 'wash app',
   webDir: 'public',
   server: {
-    url: 'http://172.20.10.9:3000',
-    cleartext: true
+    url: 'https://halmaheramotowash.vercel.app'
   }
 };
 

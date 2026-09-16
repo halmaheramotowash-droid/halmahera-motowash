@@ -3,6 +3,31 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/current-user";
 import { randomUUID } from "node:crypto";
 
+function getTodayWIB() {
+  const now = new Date();
+
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Jakarta",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+}
+
+function getWIBDateRange(dateString: string) {
+  const [year, month, day] = dateString.split("-").map(Number);
+
+  const start = new Date(
+    Date.UTC(year, month - 1, day, -7, 0, 0, 0)
+  );
+
+  const end = new Date(
+    Date.UTC(year, month - 1, day + 1, -7, 0, 0, 0)
+  );
+
+  return { start, end };
+}
+
 export async function GET() {
   try {
     const currentUser = await getCurrentUser();
@@ -17,7 +42,9 @@ export async function GET() {
     const transactions = await prisma.transaction.findMany({
       where:
         currentUser.role === "KARYAWAN"
-          ? { employeeId: currentUser.userId }
+          ? {
+              employeeId: currentUser.userId,
+            }
           : undefined,
       orderBy: {
         createdAt: "desc",
@@ -78,12 +105,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const compensation =
-      await prisma.employeeCompensation.findUnique({
-        where: {
-          vehicleType: vehicleType as "MOTOR" | "MOBIL",
-        },
-      });
+    const compensation = await prisma.employeeCompensation.findUnique({
+      where: {
+        vehicleType: vehicleType as "MOTOR" | "MOBIL",
+      },
+    });
 
     if (!compensation || !compensation.active) {
       return NextResponse.json(
@@ -95,36 +121,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const now = new Date();
+    const todayWIB = getTodayWIB();
+    const { start, end } = getWIBDateRange(todayWIB);
 
-    const startOfDay = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-
-    const startOfTomorrow = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1
-    );
-
-    const datePart =
-      now.getFullYear().toString() +
-      String(now.getMonth() + 1).padStart(2, "0") +
-      String(now.getDate()).padStart(2, "0");
-
-    const transactionCount = await prisma.transaction.count({
-      where: {
-        createdAt: {
-          gte: startOfDay,
-          lt: startOfTomorrow,
-        },
-      },
-    });
-
-    const transactionNumber =
-  `TRX-${datePart}-${randomUUID().replace(/-/g, "").slice(0, 8).toUpperCase()}`;
+    const transactionNumber = `TRX-${todayWIB.replace(
+      /-/g,
+      ""
+    )}-${randomUUID().replace(/-/g, "").slice(0, 8).toUpperCase()}`;
 
     const transaction = await prisma.transaction.create({
       data: {
