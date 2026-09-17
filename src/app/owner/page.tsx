@@ -2,6 +2,7 @@ import NotificationButton from "./notification-button";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/current-user";
+import PullToRefresh from "./pull-to-refresh";
 
 import { PrismaClient } from "../../../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -244,6 +245,7 @@ export default async function OwnerPage({
   return (
     <main className="min-h-screen bg-[#05080d] text-white">
       <OwnerAutoRefresh />
+	<PullToRefresh />
 
       <div className="min-h-screen pb-24 lg:pb-8">
         {/* HEADER */}

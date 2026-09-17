@@ -59,6 +59,13 @@ const settings = [
     icon: "ℹ️",
     color: "from-red-950/80 to-[#151b27]",
   },
+  {
+    title: "RESET TRANSAKSI",
+    description: "Hapus seluruh data transaksi dengan verifikasi Owner",
+    path: "/owner/pengaturan/reset-transaksi",
+    icon: "⚠️",
+    color: "from-red-950/90 to-[#260b0b]",
+  },
 ];
 
 export default function PengaturanPage() {
@@ -160,37 +167,67 @@ export default function PengaturanPage() {
 
           {/* MENU PENGATURAN */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {settings.map((item) => (
-              <Link
-                key={item.path}
-                href={item.path}
-                className={`group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br ${item.color} p-4 transition hover:-translate-y-1 hover:border-red-600/80 hover:shadow-[0_0_25px_rgba(239,68,68,0.14)] active:scale-[0.98] sm:p-5`}
-              >
-                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-red-600/5 transition group-hover:bg-red-600/10" />
+            {settings.map((item) => {
+              const isDanger = item.path.includes("reset-transaksi");
 
-                <div className="relative flex items-start justify-between gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-red-700/50 bg-red-950/70 text-2xl">
-                    {item.icon}
+              return (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className={`group relative overflow-hidden rounded-3xl border p-4 transition hover:-translate-y-1 active:scale-[0.98] sm:p-5 ${
+                    isDanger
+                      ? "border-red-600/70 bg-gradient-to-br from-red-950/90 to-[#260b0b] hover:border-red-400 hover:shadow-[0_0_30px_rgba(239,68,68,0.25)]"
+                      : `border-white/10 bg-gradient-to-br ${item.color} hover:border-red-600/80 hover:shadow-[0_0_25px_rgba(239,68,68,0.14)]`
+                  }`}
+                >
+                  <div
+                    className={`absolute -right-8 -top-8 h-24 w-24 rounded-full transition ${
+                      isDanger
+                        ? "bg-red-600/10 group-hover:bg-red-600/20"
+                        : "bg-red-600/5 group-hover:bg-red-600/10"
+                    }`}
+                  />
+
+                  <div className="relative flex items-start justify-between gap-3">
+                    <div
+                      className={`flex h-12 w-12 items-center justify-center rounded-2xl border text-2xl ${
+                        isDanger
+                          ? "border-red-500/70 bg-red-600/20"
+                          : "border-red-700/50 bg-red-950/70"
+                      }`}
+                    >
+                      {item.icon}
+                    </div>
+
+                    <div
+                      className={`text-xl font-black transition ${
+                        isDanger
+                          ? "text-red-500 group-hover:text-red-300"
+                          : "text-zinc-600 group-hover:text-red-500"
+                      }`}
+                    >
+                      →
+                    </div>
                   </div>
 
-                  <div className="text-xl font-black text-zinc-600 transition group-hover:text-red-500">
-                    →
+                  <div className="relative mt-5">
+                    <h2 className="text-sm font-black tracking-wide text-white">
+                      {item.title}
+                    </h2>
+
+                    <p className="mt-2 min-h-[40px] text-xs leading-5 text-zinc-400">
+                      {item.description}
+                    </p>
                   </div>
-                </div>
 
-                <div className="relative mt-5">
-                  <h2 className="text-sm font-black tracking-wide text-white">
-                    {item.title}
-                  </h2>
-
-                  <p className="mt-2 min-h-[40px] text-xs leading-5 text-zinc-400">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="relative mt-4 h-1 w-12 rounded-full bg-red-600 transition-all group-hover:w-full" />
-              </Link>
-            ))}
+                  <div
+                    className={`relative mt-4 h-1 rounded-full transition-all group-hover:w-full ${
+                      isDanger ? "w-16 bg-red-500" : "w-12 bg-red-600"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
           </div>
         </section>
 
@@ -212,9 +249,7 @@ export default function PengaturanPage() {
               className="flex flex-col items-center gap-1 rounded-xl px-1 py-2 text-zinc-400 transition hover:bg-white/5 hover:text-white"
             >
               <span className="text-xl">♨</span>
-              <span className="text-[10px] font-bold sm:text-xs">
-                Cuci
-              </span>
+              <span className="text-[10px] font-bold sm:text-xs">Cuci</span>
             </Link>
 
             <Link
@@ -232,9 +267,7 @@ export default function PengaturanPage() {
               className="flex flex-col items-center gap-1 rounded-xl px-1 py-2 text-zinc-400 transition hover:bg-white/5 hover:text-white"
             >
               <span className="text-xl">▥</span>
-              <span className="text-[10px] font-bold sm:text-xs">
-                Hasil
-              </span>
+              <span className="text-[10px] font-bold sm:text-xs">Hasil</span>
             </Link>
 
             <Link

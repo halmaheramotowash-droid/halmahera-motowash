@@ -147,10 +147,21 @@ export default function HomePage() {
           return;
         }
 
-        const [summaryResponse, transactionsResponse] = await Promise.all([
-          fetch("/api/owner/summary", { cache: "no-store" }),
-          fetch("/api/transactions", { cache: "no-store" }),
-        ]);
+        const todayWIB = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Asia/Jakarta",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
+
+const [summaryResponse, transactionsResponse] = await Promise.all([
+  fetch(`/api/owner/summary?date=${todayWIB}`, {
+    cache: "no-store",
+  }),
+  fetch("/api/transactions", {
+    cache: "no-store",
+  }),
+]);
 
         let summaryData: Record<string, unknown> = {};
 

@@ -1,10 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function LogoutButton() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  useEffect(() => {
+    const openLogoutModal = () => {
+      setShowConfirm(true);
+    };
+
+    window.addEventListener("open-logout-modal", openLogoutModal);
+
+    return () => {
+      window.removeEventListener("open-logout-modal", openLogoutModal);
+    };
+  }, []);
 
   const handleLogout = async () => {
     if (isLoggingOut) return;

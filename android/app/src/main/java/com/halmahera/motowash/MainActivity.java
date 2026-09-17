@@ -25,17 +25,13 @@ public class MainActivity extends BridgeActivity {
                         "const path = window.location.pathname;" +
 
                         "if (path === '/owner' || path === '/owner/') {" +
-                        "  const shouldLogout = window.confirm('Apakah Anda ingin logout?');" +
-                        "  if (shouldLogout) {" +
-                        "    fetch('/api/logout', { method: 'POST' })" +
-                        "      .then(() => { window.location.href = '/login'; })" +
-                        "      .catch(() => { window.location.href = '/login'; });" +
-                        "  }" +
+                        "  window.dispatchEvent(new Event('open-logout-modal'));" +
                         "} else if (window.history.length > 1) {" +
                         "  window.history.back();" +
                         "} else {" +
                         "  window.location.href = '/owner';" +
                         "}" +
+
                         "})()",
                         null
                     );
