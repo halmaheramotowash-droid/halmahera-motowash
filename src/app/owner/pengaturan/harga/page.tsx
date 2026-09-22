@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiGet, apiFetch } from "@/lib/api-client";
 
 type WashPrice = {
   id: number;
@@ -43,7 +44,7 @@ export default function HargaCuciPage() {
         setLoading(true);
         setError("");
 
-        const response = await fetch("/api/owner/wash-prices", {
+        const response = await apiGet("/api/owner/wash-prices", {
           method: "GET",
           cache: "no-store",
         });
@@ -113,16 +114,12 @@ export default function HargaCuciPage() {
     }
 
     try {
-      const response = await fetch("/api/owner/wash-prices", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          category: category.category,
-          price: numericPrice,
-        }),
-      });
+      const response = await apiFetch("/api/owner/wash-prices", {
+  method: "PUT",
+  json: {
+    // PERTAHANKAN SELURUH ISI object yang sekarang
+  },
+});
 
       const data = await response.json();
 

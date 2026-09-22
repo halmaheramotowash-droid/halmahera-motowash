@@ -1,4 +1,5 @@
 "use client";
+import { apiGet } from "@/lib/api-client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -70,12 +71,12 @@ export default function HasilPage() {
         setLoading(true);
       }
 
-      const response = await fetch(
-        `/api/hasil?date=${encodeURIComponent(date)}`,
-        {
-          cache: "no-store",
-        }
-      );
+      const response = await apiGet(
+  `/api/hasil?date=${encodeURIComponent(date)}`,
+  {
+    cache: "no-store",
+  }
+);
 
       const result = await response.json();
 

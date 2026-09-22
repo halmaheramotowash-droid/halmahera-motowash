@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { Capacitor } from "@capacitor/core";
+import { SecureStorage } from "@aparajita/capacitor-secure-storage";
+import { apiPost } from "@/lib/api-client";
 const SAVED_USERNAME_KEY =
   "halmahera_motowash_saved_username";
 
@@ -11,6 +13,8 @@ const SAVED_PASSWORD_KEY =
 
 const SAVE_LOGIN_KEY =
   "halmahera_motowash_save_login";
+const MOBILE_SESSION_KEY =
+  "halmahera_motowash_session";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -81,27 +85,32 @@ export default function LoginPage() {
         return;
       }
 
-      const response = await fetch("/api/login", {
-        method: "POST",
+      const response = await apiPost(
+  "/api/login",
+  {
+    username: cleanUsername,
+    password,
+  },
+  Capacitor.isNativePlatform()
+    ? {
         headers: {
-          "Content-Type": "application/json",
+          "X-Client-Type": "mobile",
         },
-        body: JSON.stringify({
-          username: cleanUsername,
-          password,
-        }),
-      });
+      }
+    : undefined
+);
 
       let data: {
-        success?: boolean;
-        error?: string;
-        user?: {
-          id: number;
-          name: string;
-          username: string;
-          role: "OWNER" | "KARYAWAN";
-        };
-      } = {};
+  success?: boolean;
+  error?: string;
+  sessionToken?: string;
+  user?: {
+    id: number;
+    name: string;
+    username: string;
+    role: "OWNER" | "KARYAWAN";
+  };
+} = {};
 
       try {
         data = await response.json();
@@ -168,6 +177,37 @@ export default function LoginPage() {
        * login berhasil agar tidak tetap tersimpan
        * di memori halaman lebih lama dari diperlukan.
        */
+/*
+ * Jika login dilakukan dari APK native,
+ * simpan JWT ke Secure Storage Android.
+ *
+ * Browser tetap menggunakan HttpOnly cookie
+ * dan tidak menyimpan JWT di localStorage.
+ */
+if (Capacitor.isNativePlatform()) {
+  if (!data.sessionToken) {
+    setError("Token sesi aplikasi tidak diterima dari server.");
+    return;
+  }
+
+  try {
+    await SecureStorage.set(
+      MOBILE_SESSION_KEY,
+      data.sessionToken
+    );
+  } catch (error) {
+    console.error(
+      "Gagal menyimpan session mobile:",
+      error
+    );
+
+    setError(
+      "Login berhasil, tetapi sesi aplikasi gagal disimpan. Silakan coba lagi."
+    );
+
+    return;
+  }
+}
       setPassword("");
 
       if (data.user?.role === "OWNER") {

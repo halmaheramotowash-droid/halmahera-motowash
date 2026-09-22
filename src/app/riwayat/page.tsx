@@ -1,5 +1,5 @@
 "use client";
-
+import { apiGet } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -58,10 +58,9 @@ export default function RiwayatPage() {
 
     async function loadTransactions() {
       try {
-        const response = await fetch("/api/transactions", {
-          method: "GET",
-          cache: "no-store",
-        });
+        const response = await apiGet("/api/transactions", {
+  cache: "no-store",
+});
 
         if (!response.ok) {
           throw new Error("Gagal mengambil data transaksi");

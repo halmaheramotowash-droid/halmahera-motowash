@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { apiGet, apiPost } from "@/lib/api-client";
 
 type Expense = {
   id: number;
@@ -50,7 +51,7 @@ export default function PengeluaranPage() {
 
   async function loadExpenses() {
     try {
-      const response = await fetch("/api/expenses");
+      const response = await apiGet("/api/expenses");
       const data = await response.json();
 
       if (data.success) {
@@ -85,18 +86,9 @@ export default function PengeluaranPage() {
     setSaving(true);
 
     try {
-      const response = await fetch("/api/expenses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          expenseDate,
-          category,
-          description,
-          amount: nominal,
-        }),
-      });
+      const response = await apiPost("/api/expenses", {
+  // PERTAHANKAN SELURUH ISI object yang sekarang
+});
 
       const data = await response.json();
 

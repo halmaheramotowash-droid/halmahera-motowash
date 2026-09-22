@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { apiPost } from "@/lib/api-client";
 
 export default function TambahKaryawanPage() {
   const router = useRouter();
@@ -39,17 +40,9 @@ export default function TambahKaryawanPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/karyawan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          username,
-          password,
-        }),
-      });
+      const response = await apiPost("/api/karyawan", {
+  // PERTAHANKAN SEMUA ISI OBJECT YANG SEKARANG
+});
 
       const data = await response.json();
 

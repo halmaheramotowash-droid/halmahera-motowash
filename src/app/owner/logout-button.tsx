@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { apiPost } from "@/lib/api-client";
 
 export default function LogoutButton() {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -24,9 +25,7 @@ export default function LogoutButton() {
     setIsLoggingOut(true);
 
     try {
-      await fetch("/api/logout", {
-        method: "POST",
-      });
+      await apiPost("/api/logout");
     } catch (error) {
       console.error("Logout error:", error);
     } finally {

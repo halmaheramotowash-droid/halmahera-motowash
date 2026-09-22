@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { apiGet } from "@/lib/api-client";
 
 type Transaction = {
   id?: number | string;
@@ -47,9 +48,9 @@ export default function NotificationButton() {
   async function loadNotifications() {
     try {
       setLoading(true);
-      const response = await fetch("/api/transactions", {
-        cache: "no-store",
-      });
+      const response = await apiGet("/api/transactions", {
+  cache: "no-store",
+});
       if (!response.ok) throw new Error("Gagal mengambil transaksi terbaru");
 
       const result = await response.json();

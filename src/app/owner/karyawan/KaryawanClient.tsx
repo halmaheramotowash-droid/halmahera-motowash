@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { apiGet, apiPatch, apiDelete } from "@/lib/api-client";
 
 type Employee = {
   id: number;
@@ -9,6 +10,7 @@ type Employee = {
   role: "KARYAWAN";
   active: boolean;
   createdAt: string;
+  deletedAt?: string | null;
 };
 
 type Props = {
@@ -20,6 +22,9 @@ export default function KaryawanClient({
 }: Props) {
   const [employees, setEmployees] =
     useState<Employee[]>(initialEmployees);
+
+  const [loadingEmployees, setLoadingEmployees] =
+    useState(true);
 
   const [loadingId, setLoadingId] =
     useState<number | null>(null);
@@ -45,13 +50,77 @@ export default function KaryawanClient({
   const [successMessage, setSuccessMessage] =
     useState<string | null>(null);
 
+  /*
+   * =====================================================
+   * AMBIL DATA KARYAWAN DARI API
+   * =====================================================
+   */
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadEmployees() {
+      try {
+        setLoadingEmployees(true);
+
+        const response = await apiGet(
+          "/api/karyawan",
+          {
+            cache: "no-store",
+          },
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(
+            data.error ||
+              "Gagal mengambil daftar karyawan",
+          );
+        }
+
+        if (!cancelled) {
+          setEmployees(
+            Array.isArray(data.employees)
+              ? data.employees
+              : [],
+          );
+        }
+      } catch (error) {
+        console.error(
+          "DAFTAR KARYAWAN ERROR:",
+          error,
+        );
+
+        /*
+         * Jika API gagal, data awal dari server
+         * tetap dipertahankan.
+         */
+      } finally {
+        if (!cancelled) {
+          setLoadingEmployees(false);
+        }
+      }
+    }
+
+    loadEmployees();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  /*
+   * =====================================================
+   * UBAH STATUS KARYAWAN
+   * =====================================================
+   */
   async function changeStatus(employee: Employee) {
     const action = employee.active
       ? "menonaktifkan"
       : "mengaktifkan";
 
     const confirmed = window.confirm(
-      `Yakin ingin ${action} akun ${employee.name}?`
+      `Yakin ingin ${action} akun ${employee.name}?`,
     );
 
     if (!confirmed) {
@@ -61,18 +130,12 @@ export default function KaryawanClient({
     try {
       setLoadingId(employee.id);
 
-      const response = await fetch(
+      const response = await apiPatch(
         "/api/karyawan",
         {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            employeeId: employee.id,
-            active: !employee.active,
-          }),
-        }
+          employeeId: employee.id,
+          active: !employee.active,
+        },
       );
 
       const data = await response.json();
@@ -80,7 +143,7 @@ export default function KaryawanClient({
       if (!response.ok || !data.success) {
         throw new Error(
           data.error ||
-            "Gagal mengubah status karyawan"
+            "Gagal mengubah status karyawan",
         );
       }
 
@@ -88,14 +151,14 @@ export default function KaryawanClient({
         current.map((item) =>
           item.id === employee.id
             ? data.employee
-            : item
-        )
+            : item,
+        ),
       );
 
       setSuccessMessage(
         employee.active
           ? "Karyawan berhasil dinonaktifkan"
-          : "Karyawan berhasil diaktifkan"
+          : "Karyawan berhasil diaktifkan",
       );
     } catch (error) {
       console.error(error);
@@ -103,14 +166,21 @@ export default function KaryawanClient({
       alert(
         error instanceof Error
           ? error.message
-          : "Terjadi kesalahan"
+          : "Terjadi kesalahan",
       );
     } finally {
       setLoadingId(null);
     }
   }
 
-  function openPasswordModal(employee: Employee) {
+  /*
+   * =====================================================
+   * MODAL PASSWORD
+   * =====================================================
+   */
+  function openPasswordModal(
+    employee: Employee,
+  ) {
     setPasswordEmployee(employee);
     setNewPassword("");
     setShowPassword(false);
@@ -126,6 +196,11 @@ export default function KaryawanClient({
     setShowPassword(false);
   }
 
+  /*
+   * =====================================================
+   * UBAH PASSWORD
+   * =====================================================
+   */
   async function changePassword() {
     if (!passwordEmployee) {
       return;
@@ -139,19 +214,12 @@ export default function KaryawanClient({
     try {
       setSavingPassword(true);
 
-      const response = await fetch(
+      const response = await apiPatch(
         "/api/karyawan",
         {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            employeeId:
-              passwordEmployee.id,
-            password: newPassword,
-          }),
-        }
+          employeeId: passwordEmployee.id,
+          password: newPassword,
+        },
       );
 
       const data = await response.json();
@@ -159,7 +227,7 @@ export default function KaryawanClient({
       if (!response.ok || !data.success) {
         throw new Error(
           data.error ||
-            "Gagal mengubah password"
+            "Gagal mengubah password",
         );
       }
 
@@ -167,12 +235,12 @@ export default function KaryawanClient({
         current.map((item) =>
           item.id === passwordEmployee.id
             ? data.employee
-            : item
-        )
+            : item,
+        ),
       );
 
       setSuccessMessage(
-        "Password karyawan berhasil diubah"
+        "Password karyawan berhasil diubah",
       );
 
       closePasswordModal();
@@ -182,14 +250,21 @@ export default function KaryawanClient({
       alert(
         error instanceof Error
           ? error.message
-          : "Terjadi kesalahan"
+          : "Terjadi kesalahan",
       );
     } finally {
       setSavingPassword(false);
     }
   }
 
-  function openDeleteModal(employee: Employee) {
+  /*
+   * =====================================================
+   * MODAL HAPUS
+   * =====================================================
+   */
+  function openDeleteModal(
+    employee: Employee,
+  ) {
     setDeleteEmployeeTarget(employee);
   }
 
@@ -201,6 +276,11 @@ export default function KaryawanClient({
     setDeleteEmployeeTarget(null);
   }
 
+  /*
+   * =====================================================
+   * HAPUS KARYAWAN
+   * =====================================================
+   */
   async function confirmDeleteEmployee() {
     if (!deleteEmployeeTarget) {
       return;
@@ -211,17 +291,11 @@ export default function KaryawanClient({
     try {
       setDeletingId(employee.id);
 
-      const response = await fetch(
+      const response = await apiDelete(
         "/api/karyawan",
         {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            employeeId: employee.id,
-          }),
-        }
+          employeeId: employee.id,
+        },
       );
 
       const data = await response.json();
@@ -229,15 +303,15 @@ export default function KaryawanClient({
       if (!response.ok || !data.success) {
         throw new Error(
           data.error ||
-            "Gagal menghapus akun karyawan"
+            "Gagal menghapus akun karyawan",
         );
       }
 
       setEmployees((current) =>
         current.filter(
           (item) =>
-            item.id !== employee.id
-        )
+            item.id !== employee.id,
+        ),
       );
 
       setDeleteEmployeeTarget(null);
@@ -245,7 +319,7 @@ export default function KaryawanClient({
       setSuccessMessage(
         data.softDeleted
           ? `Akun ${employee.name} dinonaktifkan dan ditandai terhapus. Histori transaksi tetap aman.`
-          : `Akun ${employee.name} berhasil dihapus permanen.`
+          : `Akun ${employee.name} berhasil dihapus permanen.`,
       );
     } catch (error) {
       console.error(error);
@@ -253,13 +327,33 @@ export default function KaryawanClient({
       alert(
         error instanceof Error
           ? error.message
-          : "Terjadi kesalahan"
+          : "Terjadi kesalahan",
       );
     } finally {
       setDeletingId(null);
     }
   }
 
+  /*
+   * =====================================================
+   * DATA RINGKASAN
+   * =====================================================
+   */
+  const activeEmployees =
+    employees.filter(
+      (employee) => employee.active,
+    ).length;
+
+  const inactiveEmployees =
+    employees.filter(
+      (employee) => !employee.active,
+    ).length;
+
+  /*
+   * =====================================================
+   * TAMPILAN
+   * =====================================================
+   */
   return (
     <>
       {/* NOTIFIKASI BERHASIL */}
@@ -293,8 +387,20 @@ export default function KaryawanClient({
         </div>
       )}
 
+      {/* DAFTAR KARYAWAN */}
       <section className="mt-4 space-y-3">
-        {employees.length === 0 ? (
+        {loadingEmployees &&
+        employees.length === 0 ? (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5 text-center">
+            <p className="font-bold">
+              MEMUAT DATA KARYAWAN...
+            </p>
+
+            <p className="mt-1 text-sm text-zinc-500">
+              Mengambil data dari server.
+            </p>
+          </div>
+        ) : employees.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-zinc-800 bg-zinc-950 p-5 text-center">
             <p className="font-bold">
               BELUM ADA KARYAWAN
@@ -343,7 +449,9 @@ export default function KaryawanClient({
                 <button
                   type="button"
                   onClick={() =>
-                    openPasswordModal(employee)
+                    openPasswordModal(
+                      employee,
+                    )
                   }
                   className="min-h-[48px] rounded-xl border border-zinc-700 bg-zinc-900 px-3 text-xs font-black text-white transition active:scale-[0.98]"
                 >
@@ -394,14 +502,42 @@ export default function KaryawanClient({
                     : "",
                 ].join(" ")}
               >
-                {deletingId === employee.id
-                  ? "MENGHAPUS..."
-                  : "🗑️ HAPUS AKUN"}
+                🗑️ HAPUS AKUN
               </button>
             </div>
           ))
         )}
       </section>
+
+      {/* INFO RINGKASAN DATA */}
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        <div className="rounded-2xl border border-white/5 bg-black/30 p-3 text-center">
+          <p className="text-lg font-black">
+            {employees.length}
+          </p>
+          <p className="text-[10px] font-bold text-zinc-500">
+            TOTAL
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-white/5 bg-black/30 p-3 text-center">
+          <p className="text-lg font-black text-green-400">
+            {activeEmployees}
+          </p>
+          <p className="text-[10px] font-bold text-zinc-500">
+            AKTIF
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-white/5 bg-black/30 p-3 text-center">
+          <p className="text-lg font-black text-yellow-400">
+            {inactiveEmployees}
+          </p>
+          <p className="text-[10px] font-bold text-zinc-500">
+            NONAKTIF
+          </p>
+        </div>
+      </div>
 
       {/* MODAL UBAH PASSWORD */}
       {passwordEmployee && (
@@ -442,7 +578,7 @@ export default function KaryawanClient({
                   value={newPassword}
                   onChange={(event) =>
                     setNewPassword(
-                      event.target.value
+                      event.target.value,
                     )
                   }
                   placeholder="Minimal 6 karakter"
@@ -454,7 +590,7 @@ export default function KaryawanClient({
                   type="button"
                   onClick={() =>
                     setShowPassword(
-                      (current) => !current
+                      (current) => !current,
                     )
                   }
                   className="min-h-[50px] rounded-xl bg-zinc-900 px-4 text-sm"

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiGet, apiPatch, apiPost } from "@/lib/api-client";
 
 type UserAccount = {
   id: number;
@@ -38,7 +39,7 @@ export default function AkunKeamananPage() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("/api/owner/account", {
+      const response = await apiGet("/api/owner/account", {
         method: "GET",
         cache: "no-store",
       });
@@ -90,16 +91,9 @@ export default function AkunKeamananPage() {
     try {
       setSaving(true);
 
-      const response = await fetch("/api/owner/account", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: cleanName,
-          username: cleanUsername,
-        }),
-      });
+      const response = await apiPatch("/api/owner/account", {
+  // PERTAHANKAN seluruh isi object yang sekarang
+});
 
       const data = await response.json();
 
@@ -164,20 +158,12 @@ export default function AkunKeamananPage() {
     try {
       setChangingPassword(true);
 
-      const response = await fetch(
-        "/api/owner/account/password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            currentPassword,
-            newPassword,
-            confirmPassword,
-          }),
-        }
-      );
+      const response = await apiPost(
+  "/api/owner/account/password",
+  {
+    // PERTAHANKAN seluruh isi object yang sekarang
+  }
+);
 
       const data = await response.json();
 

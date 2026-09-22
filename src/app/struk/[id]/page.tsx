@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { apiGet, apiPost } from "@/lib/api-client";
 
 type Transaction = {
   id: number;
@@ -85,14 +86,9 @@ export default function StrukPage() {
           return;
         }
 
-        const response = await fetch(
-          `/api/transactions/${transactionId}/receipt`,
-          {
-            method: "GET",
-            cache: "no-store",
-            signal: controller.signal,
-          }
-        );
+        const response = await apiGet(
+  `/api/transactions/${transactionId}/receipt`
+);
 
         const contentType =
           response.headers.get("content-type") || "";
@@ -180,8 +176,8 @@ export default function StrukPage() {
       console.log("Dialog print browser selesai.");
 
       try {
-        const response = await fetch(
-          `/api/transactions/${transaction.id}/print`,
+        const response = await apiPost(
+  `/api/transactions/${transaction.id}/print`,
           {
             method: "POST",
             headers: {
@@ -294,8 +290,8 @@ export default function StrukPage() {
       /*
        * 1. CATAT PROSES CETAK DIMULAI
        */
-      const startResponse = await fetch(
-        `/api/transactions/${transaction.id}/print`,
+      const startResponse = await apiPost(
+  `/api/transactions/${transaction.id}/print`,
         {
           method: "POST",
           headers: {
@@ -367,8 +363,8 @@ export default function StrukPage() {
       );
 
       try {
-        await fetch(
-          `/api/transactions/${transaction.id}/print`,
+        await apiPost(
+  `/api/transactions/${transaction.id}/print`,
           {
             method: "POST",
             headers: {

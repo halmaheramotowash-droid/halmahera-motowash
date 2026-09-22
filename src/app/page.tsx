@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { apiGet, apiPost } from "@/lib/api-client";
 
 type CurrentUser = {
   userId: number;
@@ -77,7 +78,7 @@ export default function HomePage() {
   useEffect(() => {
     async function loadCurrentUser() {
       try {
-        const response = await fetch("/api/me", {
+        const response = await apiGet("/api/me", {
           cache: "no-store",
         });
 
@@ -114,7 +115,7 @@ export default function HomePage() {
     async function loadDashboardStats(user: CurrentUser) {
       try {
         if (user.role === "KARYAWAN") {
-          const response = await fetch("/api/hasil", {
+          const response = await apiGet("/api/hasil", {
             cache: "no-store",
           });
 
@@ -155,10 +156,10 @@ export default function HomePage() {
 }).format(new Date());
 
 const [summaryResponse, transactionsResponse] = await Promise.all([
-  fetch(`/api/owner/summary?date=${todayWIB}`, {
+  apiGet(`/api/owner/summary?date=${todayWIB}`, {
     cache: "no-store",
   }),
-  fetch("/api/transactions", {
+  apiGet("/api/transactions", {
     cache: "no-store",
   }),
 ]);
@@ -268,9 +269,7 @@ const [summaryResponse, transactionsResponse] = await Promise.all([
     setLoggingOut(true);
 
     try {
-      await fetch("/api/logout", {
-        method: "POST",
-      });
+      await apiPost("/api/logout");
     } catch (error) {
       console.error("Logout error:", error);
     } finally {

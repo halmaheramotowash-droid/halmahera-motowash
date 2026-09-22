@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiGet, apiFetch } from "@/lib/api-client";
 
 type VehicleType = "MOTOR" | "MOBIL";
 
@@ -33,7 +34,7 @@ export default function KompensasiPage() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("/api/owner/compensation");
+      const response = await apiGet("/api/owner/compensation");
 
       const data = await response.json();
 
@@ -106,16 +107,12 @@ export default function KompensasiPage() {
         return;
       }
 
-      const response = await fetch("/api/owner/compensation", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          vehicleType: editingType,
-          amount,
-        }),
-      });
+      const response = await apiFetch("/api/owner/compensation", {
+  method: "PUT",
+  json: {
+    // PERTAHANKAN seluruh isi object yang sekarang
+  },
+});
 
       const data = await response.json();
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { apiPost } from "@/lib/api-client";
 
 export default function ResetTransaksiPage() {
   const [password, setPassword] = useState("");
@@ -39,13 +40,9 @@ export default function ResetTransaksiPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/owner/reset-transaksi", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password }),
-      });
+      const response = await apiPost("/api/owner/reset-transaksi", {
+  password,
+});
 
       const data = await response.json();
 

@@ -3,6 +3,9 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/current-user";
 import PullToRefresh from "./pull-to-refresh";
+import MainStatsClient from "./main-stats-client";
+import FinancialSummaryClient from "./financial-summary-client";
+
 
 import { PrismaClient } from "../../../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -313,59 +316,7 @@ export default async function OwnerPage({
             </div>
           </section>
 
-          {/* TIGA KARTU STATISTIK UTAMA */}
-          <section className="mt-5 grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
-            {/* KENDARAAN HARI INI */}
-            <div className="min-w-0 rounded-3xl border border-white/10 bg-[#111923] p-3 sm:p-4 lg:p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-red-950/80 text-xl sm:h-12 sm:w-12 sm:text-2xl lg:h-16 lg:w-16 lg:text-3xl">
-                🏍️
-              </div>
-
-              <p className="mt-4 truncate text-2xl font-black sm:text-3xl lg:text-4xl">
-                {totalVehicles}
-              </p>
-
-              <p className="mt-2 text-[11px] leading-4 text-zinc-300 sm:text-sm lg:text-lg">
-                Kendaraan yang
-                <br />
-                Dicuci
-              </p>
-            </div>
-
-            {/* PENDAPATAN HARI INI */}
-            <div className="min-w-0 rounded-3xl border border-white/10 bg-[#111923] p-3 sm:p-4 lg:p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-yellow-950/80 text-xl sm:h-12 sm:w-12 sm:text-2xl lg:h-16 lg:w-16 lg:text-3xl">
-                💰
-              </div>
-
-              <p className="mt-4 truncate text-lg font-black text-yellow-300 sm:text-2xl lg:text-3xl">
-                {formatRupiah(totalRevenue)}
-              </p>
-
-              <p className="mt-2 text-[11px] leading-4 text-zinc-300 sm:text-sm lg:text-lg">
-                Pendapatan
-                <br />
-                Hari Ini
-              </p>
-            </div>
-
-            {/* LABA BERSIH */}
-            <div className="min-w-0 rounded-3xl border border-white/10 bg-[#111923] p-3 sm:p-4 lg:p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-950/80 text-xl sm:h-12 sm:w-12 sm:text-2xl lg:h-16 lg:w-16 lg:text-3xl">
-                🧾
-              </div>
-
-              <p className="mt-4 break-words text-[clamp(0.9rem,3.7vw,2.25rem)] font-black leading-tight tracking-tight sm:text-3xl lg:text-4xl">
-                {formatRupiah(netProfit)}
-              </p>
-
-              <p className="mt-2 text-[11px] leading-4 text-zinc-300 sm:text-sm lg:text-lg">
-                Laba Bersih
-                <br />
-                Hari Ini
-              </p>
-            </div>
-          </section>
+          <MainStatsClient />
 
           {/* BANNER SCAN */}
           <section className="mt-5">
@@ -542,103 +493,7 @@ export default async function OwnerPage({
               </div>
             </div>
 
-            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="rounded-3xl border border-white/10 bg-[#070a0e] p-4 sm:p-5">
-                <p className="text-xs font-bold tracking-widest text-zinc-500">
-                  PENDAPATAN
-                </p>
-
-                <p className="mt-3 break-words text-2xl font-black text-green-400 sm:text-3xl">
-                  {formatRupiah(totalRevenue)}
-                </p>
-              </div>
-
-              <div className="rounded-3xl border border-white/10 bg-[#070a0e] p-4 sm:p-5">
-                <p className="text-xs font-bold tracking-widest text-zinc-500">
-                  KOMISI KARYAWAN
-                </p>
-
-                <p className="mt-3 break-words text-2xl font-black text-yellow-400 sm:text-3xl">
-                  {formatRupiah(totalEmployeeResult)}
-                </p>
-              </div>
-
-              <div className="rounded-3xl border border-white/10 bg-[#070a0e] p-4 sm:p-5">
-                <p className="text-xs font-bold tracking-widest text-zinc-500">
-                  PENGELUARAN
-                </p>
-
-                <p className="mt-3 break-words text-2xl font-black text-red-400 sm:text-3xl">
-                  {formatRupiah(totalExpenses)}
-                </p>
-              </div>
-
-              <div className="rounded-3xl border border-red-900/60 bg-gradient-to-br from-red-950/60 to-[#170909] p-4 sm:p-5">
-                <p className="text-xs font-bold tracking-widest text-zinc-400">
-                  LABA BERSIH
-                </p>
-
-                <p className="mt-3 break-words text-2xl font-black text-white sm:text-3xl">
-                  {formatRupiah(netProfit)}
-                </p>
-              </div>
-            </div>
-
-            {/* RINCIAN KENDARAAN */}
-            <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
-              <div className="rounded-2xl bg-[#070a0e] p-3 text-center sm:p-4">
-                <p className="text-xl font-black text-red-400 sm:text-2xl">
-                  {motorCount}
-                </p>
-
-                <p className="mt-1 text-[10px] font-bold text-zinc-500 sm:text-xs">
-                  MOTOR
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-[#070a0e] p-3 text-center sm:p-4">
-                <p className="text-xl font-black text-blue-400 sm:text-2xl">
-                  {mobilCount}
-                </p>
-
-                <p className="mt-1 text-[10px] font-bold text-zinc-500 sm:text-xs">
-                  MOBIL
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-[#070a0e] p-3 text-center sm:p-4">
-                <p className="text-xl font-black sm:text-2xl">
-                  {totalVehicles}
-                </p>
-
-                <p className="mt-1 text-[10px] font-bold text-zinc-500 sm:text-xs">
-                  TOTAL
-                </p>
-              </div>
-            </div>
-
-            {/* PERIODE LAPORAN */}
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-[#070a0e] p-4">
-                <p className="text-xs text-zinc-500">
-                  Periode Mulai
-                </p>
-
-                <p className="mt-1 text-sm font-black sm:text-base">
-                  {formatDate(start)}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-[#070a0e] p-4">
-                <p className="text-xs text-zinc-500">
-                  Periode Sampai
-                </p>
-
-                <p className="mt-1 text-sm font-black sm:text-base">
-                  {formatDate(end)}
-                </p>
-              </div>
-            </div>
+            <FinancialSummaryClient period={period} />
           </section>
 
         </div>

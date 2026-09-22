@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiGet, apiFetch } from "@/lib/api-client";
 
 type BusinessProfile = {
   id: number;
@@ -35,7 +36,7 @@ export default function InformasiUsahaPage() {
       setError("");
       setSuccess("");
 
-      const response = await fetch("/api/owner/business-profile");
+      const response = await apiGet("/api/owner/business-profile");
       const data = await response.json();
 
       if (!response.ok || !data.success) {
@@ -97,20 +98,12 @@ export default function InformasiUsahaPage() {
     try {
       setSaving(true);
 
-      const response = await fetch("/api/owner/business-profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          businessName: businessName.trim(),
-          address: address.trim(),
-          postalCode: postalCode.trim(),
-          phone: phone.trim(),
-          whatsapp: whatsapp.trim(),
-          socialMedia: socialMedia.trim(),
-        }),
-      });
+      const response = await apiFetch("/api/owner/business-profile", {
+  method: "PUT",
+  json: {
+    // PERTAHANKAN SELURUH ISI object yang sekarang
+  },
+});
 
       const data = await response.json();
 

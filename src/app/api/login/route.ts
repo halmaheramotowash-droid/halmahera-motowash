@@ -46,6 +46,19 @@ export async function POST(request: Request) {
       role: user.role,
     });
 
+    /*
+     * Website tetap menggunakan HttpOnly cookie.
+     *
+     * APK/mobile nantinya dapat meminta JWT secara eksplisit
+     * menggunakan header:
+     *
+     * X-Client-Type: mobile
+     *
+     * Token hanya dikembalikan untuk client mobile.
+     */
+    const isMobileClient =
+      request.headers.get("x-client-type") === "mobile";
+
     const response = NextResponse.json({
       success: true,
       user: {
@@ -54,8 +67,17 @@ export async function POST(request: Request) {
         username: user.username,
         role: user.role,
       },
+      ...(isMobileClient
+        ? {
+            sessionToken,
+          }
+        : {}),
     });
 
+    /*
+     * Cookie session tetap dibuat seperti sebelumnya.
+     * Ini menjaga login website tetap kompatibel.
+     */
     response.cookies.set({
       name: "session",
       value: sessionToken,

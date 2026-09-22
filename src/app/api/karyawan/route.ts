@@ -10,7 +10,7 @@ async function requireOwner() {
     return {
       error: NextResponse.json(
         { error: "Belum login" },
-        { status: 401 }
+        { status: 401 },
       ),
     };
   }
@@ -21,7 +21,7 @@ async function requireOwner() {
         {
           error: "Akses ditolak. Khusus OWNER.",
         },
-        { status: 403 }
+        { status: 403 },
       ),
     };
   }
@@ -29,6 +29,56 @@ async function requireOwner() {
   return {
     currentUser,
   };
+}
+
+/*
+ * =====================================================
+ * DAFTAR KARYAWAN
+ * =====================================================
+ */
+export async function GET() {
+  try {
+    const auth = await requireOwner();
+
+    if ("error" in auth) {
+      return auth.error;
+    }
+
+    const employees = await prisma.user.findMany({
+      where: {
+        role: "KARYAWAN",
+        deletedAt: null,
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        role: true,
+        active: true,
+        deletedAt: true,
+        createdAt: true,
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      employees,
+    });
+  } catch (error) {
+    console.error("DAFTAR KARYAWAN ERROR:", error);
+
+    return NextResponse.json(
+      {
+        error: "Gagal mengambil data karyawan",
+      },
+      {
+        status: 500,
+      },
+    );
+  }
 }
 
 /*
@@ -60,7 +110,7 @@ export async function POST(request: Request) {
           error:
             "Nama, username, dan password wajib diisi",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -69,7 +119,7 @@ export async function POST(request: Request) {
         {
           error: "Nama karyawan terlalu pendek",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -78,7 +128,7 @@ export async function POST(request: Request) {
         {
           error: "Username minimal 3 karakter",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -87,7 +137,7 @@ export async function POST(request: Request) {
         {
           error: "Password minimal 6 karakter",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -103,7 +153,7 @@ export async function POST(request: Request) {
         {
           error: "Username sudah digunakan",
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -139,7 +189,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error(
       "TAMBAH KARYAWAN ERROR:",
-      error
+      error,
     );
 
     return NextResponse.json(
@@ -147,7 +197,7 @@ export async function POST(request: Request) {
         error:
           "Gagal menambahkan karyawan",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -168,7 +218,7 @@ export async function PATCH(request: Request) {
     const body = await request.json();
 
     const employeeId = Number(
-      body.employeeId
+      body.employeeId,
     );
 
     if (
@@ -179,7 +229,7 @@ export async function PATCH(request: Request) {
         {
           error: "ID karyawan tidak valid",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -204,7 +254,7 @@ export async function PATCH(request: Request) {
         {
           error: "Karyawan tidak ditemukan",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -218,7 +268,7 @@ export async function PATCH(request: Request) {
           error:
             "Akun yang dipilih bukan akun karyawan",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -238,7 +288,7 @@ export async function PATCH(request: Request) {
       body.password !== null
     ) {
       const password = String(
-        body.password
+        body.password,
       );
 
       if (password.length < 6) {
@@ -247,14 +297,14 @@ export async function PATCH(request: Request) {
             error:
               "Password minimal 6 karakter",
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       updateData.passwordHash =
         await bcrypt.hash(
           password,
-          10
+          10,
         );
     }
 
@@ -272,7 +322,7 @@ export async function PATCH(request: Request) {
             error:
               "Status active harus bernilai true atau false",
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -313,7 +363,7 @@ export async function PATCH(request: Request) {
           error:
             "Tidak ada perubahan yang dikirim",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -367,7 +417,7 @@ export async function PATCH(request: Request) {
   } catch (error) {
     console.error(
       "UBAH KARYAWAN ERROR:",
-      error
+      error,
     );
 
     return NextResponse.json(
@@ -375,7 +425,7 @@ export async function PATCH(request: Request) {
         error:
           "Gagal mengubah data karyawan",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -410,7 +460,7 @@ export async function DELETE(request: Request) {
     const body = await request.json();
 
     const employeeId = Number(
-      body.employeeId
+      body.employeeId,
     );
 
     if (
@@ -421,7 +471,7 @@ export async function DELETE(request: Request) {
         {
           error: "ID karyawan tidak valid",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -445,7 +495,7 @@ export async function DELETE(request: Request) {
         {
           error: "Karyawan tidak ditemukan",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -459,7 +509,7 @@ export async function DELETE(request: Request) {
           error:
             "Akun yang dipilih bukan akun karyawan",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -539,7 +589,7 @@ export async function DELETE(request: Request) {
   } catch (error) {
     console.error(
       "HAPUS KARYAWAN ERROR:",
-      error
+      error,
     );
 
     return NextResponse.json(
@@ -547,7 +597,7 @@ export async function DELETE(request: Request) {
         error:
           "Gagal menghapus akun karyawan",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiGet, apiPost, apiFetch, apiDelete } from "@/lib/api-client";
 
 type VehicleCategory = {
   id: number;
@@ -67,7 +68,7 @@ export default function KategoriModelPage() {
       setLoadingCategories(true);
       setCategoryError("");
 
-      const response = await fetch("/api/vehicle-categories");
+      const response = await apiGet("/api/vehicle-categories");
       const data = await response.json();
 
       if (!response.ok || !data.success) {
@@ -95,7 +96,7 @@ export default function KategoriModelPage() {
       setLoadingBrands(true);
       setBrandError("");
 
-      const response = await fetch("/api/vehicle-brands");
+      const response = await apiGet("/api/vehicle-brands");
       const data = await response.json();
 
       if (!response.ok || !data.success) {
@@ -121,7 +122,7 @@ export default function KategoriModelPage() {
       setLoadingModels(true);
       setModelError("");
 
-      const response = await fetch("/api/vehicle-models");
+      const response = await apiGet("/api/vehicle-models");
       const data = await response.json();
 
       if (!response.ok || !data.success) {
@@ -236,19 +237,16 @@ export default function KategoriModelPage() {
 
       const isEditing = editingModelId !== null;
 
-      const response = await fetch("/api/vehicle-models", {
-        method: isEditing ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...(isEditing ? { id: editingModelId } : {}),
-          brandId,
-          name,
-          vehicleType: formVehicleType,
-          categoryId,
-        }),
-      });
+      const response = await apiFetch("/api/vehicle-models", {
+  method: isEditing ? "PUT" : "POST",
+  json: {
+    ...(isEditing ? { id: editingModelId } : {}),
+    brandId,
+    name,
+    vehicleType: formVehicleType,
+    categoryId,
+  },
+});
 
       const data = await response.json();
 
@@ -298,15 +296,9 @@ export default function KategoriModelPage() {
       setDeletingModelId(model.id);
       setModelError("");
 
-      const response = await fetch("/api/vehicle-models", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: model.id,
-        }),
-      });
+      const response = await apiDelete("/api/vehicle-models", {
+  id: model.id,
+});
 
       const data = await response.json();
 

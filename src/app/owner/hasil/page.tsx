@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { apiGet } from "@/lib/api-client";
 
 type Transaction = {
   id: number;
@@ -112,9 +113,12 @@ export default function OwnerHasilPage() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `/api/owner/summary?date=${encodeURIComponent(date)}`
-      );
+      const response = await apiGet(
+  `/api/owner/summary?date=${encodeURIComponent(date)}`,
+  {
+    cache: "no-store",
+  }
+);
 
       const result = await response.json();
 

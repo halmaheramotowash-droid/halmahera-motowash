@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Capacitor } from "@capacitor/core";
+import { apiGet, apiPost } from "@/lib/api-client";
 import {
   Camera,
   CameraDirection,
@@ -101,7 +102,7 @@ const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
       try {
         setCategoriesLoading(true);
 
-        const response = await fetch("/api/wash-prices");
+        const response = await apiGet("/api/wash-prices");
         const data = await response.json();
 
         if (!response.ok || !data.success) {
@@ -230,7 +231,7 @@ const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
           vehicleType,
         });
 
-        const response = await fetch(
+        const response = await apiGet(
           `/api/vehicle-models?${params.toString()}`,
           {
             signal: controller.signal,
@@ -430,13 +431,10 @@ const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
         ),
       );
 
-      const analyzeResponse = await fetch(
-        "/api/vehicle/analyze-gemini",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const analyzeResponse = await apiPost(
+  "/api/vehicle/analyze-gemini",
+  formData,
+);
 
       const data = await analyzeResponse.json();
 
@@ -576,21 +574,15 @@ const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
     setSaving(true);
 
     try {
-      const response = await fetch(
-        "/api/transactions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            vehicleType,
-            category,
-            model: model.trim(),
-            price,
-          }),
-        },
-      );
+      const response = await apiPost(
+  "/api/transactions",
+  {
+    vehicleType,
+    category,
+    model: model.trim(),
+    price,
+  },
+);
 
       const data = await response.json();
 

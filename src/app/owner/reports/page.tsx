@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { apiGet } from "@/lib/api-client";
 
 type Period = "daily" | "weekly" | "monthly";
 
@@ -232,13 +233,12 @@ export default function ReportsPage() {
 
   async function fetchReport(date: string): Promise<ReportData | null> {
     try {
-      const response = await fetch(
-        `/api/owner/summary?date=${encodeURIComponent(date)}`,
-        {
-          cache: "no-store",
-        },
-      );
-
+      const response = await apiGet(
+  `/api/owner/summary?date=${encodeURIComponent(date)}`,
+  {
+    cache: "no-store",
+  },
+);
       const result = await response.json();
 
       if (!response.ok || !result.success) {

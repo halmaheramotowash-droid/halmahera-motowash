@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiGet, apiFetch, apiDelete } from "@/lib/api-client";
 
 type Printer = {
   id: number;
@@ -506,7 +507,7 @@ export default function StrukPrinterPage() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("/api/owner/printers");
+      const response = await apiGet("/api/owner/printers");
       const data = await response.json();
 
       if (!response.ok || !data.success) {
@@ -551,9 +552,9 @@ export default function StrukPrinterPage() {
       setReceiptLoading(true);
       setReceiptError("");
 
-      const response = await fetch(
-        "/api/owner/receipt-settings"
-      );
+      const response = await apiGet(
+  "/api/owner/receipt-settings"
+);
 
       const data = await response.json();
 
@@ -668,35 +669,32 @@ export default function StrukPrinterPage() {
 
       const isEditing = editingPrinterId !== null;
 
-      const response = await fetch("/api/owner/printers", {
-        method: isEditing ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...(isEditing ? { id: editingPrinterId } : {}),
-          name: name.trim(),
-          connectionType,
-          paperWidth: width,
-          isDefault,
-          bluetoothDeviceId:
-            connectionType === "BLUETOOTH"
-              ? bluetoothDevice?.id ?? null
-              : null,
-          bluetoothServiceUuid:
-            connectionType === "BLUETOOTH"
-              ? bluetoothServiceUuid
-              : null,
-          bluetoothCharacteristicUuid:
-            connectionType === "BLUETOOTH"
-              ? bluetoothCharacteristicUuid
-              : null,
-          bluetoothWriteMode:
-            connectionType === "BLUETOOTH"
-              ? bluetoothWriteMode
-              : null,
-        }),
-      });
+      const response = await apiFetch("/api/owner/printers", {
+  method: isEditing ? "PUT" : "POST",
+  json: {
+    ...(isEditing ? { id: editingPrinterId } : {}),
+    name: name.trim(),
+    connectionType,
+    paperWidth: width,
+    isDefault,
+    bluetoothDeviceId:
+      connectionType === "BLUETOOTH"
+        ? bluetoothDevice?.id ?? null
+        : null,
+    bluetoothServiceUuid:
+      connectionType === "BLUETOOTH"
+        ? bluetoothServiceUuid
+        : null,
+    bluetoothCharacteristicUuid:
+      connectionType === "BLUETOOTH"
+        ? bluetoothCharacteristicUuid
+        : null,
+    bluetoothWriteMode:
+      connectionType === "BLUETOOTH"
+        ? bluetoothWriteMode
+        : null,
+  },
+});
 
       const data = await response.json();
 
@@ -750,15 +748,9 @@ export default function StrukPrinterPage() {
     try {
       setDeletingId(printer.id);
 
-      const response = await fetch("/api/owner/printers", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: printer.id,
-        }),
-      });
+      const response = await apiDelete("/api/owner/printers", {
+  id: printer.id,
+});
 
       const data = await response.json();
 
@@ -814,22 +806,19 @@ export default function StrukPrinterPage() {
     try {
       setReceiptSaving(true);
 
-      const response = await fetch(
-        "/api/owner/receipt-settings",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            paperWidth: width,
-            showBusinessName,
-            showAddress,
-            showPhone,
-            footerText: footerText.trim(),
-          }),
-        }
-      );
+      const response = await apiFetch(
+  "/api/owner/receipt-settings",
+  {
+    method: "PUT",
+    json: {
+      paperWidth: width,
+      showBusinessName,
+      showAddress,
+      showPhone,
+      footerText: footerText.trim(),
+    },
+  }
+);
 
       const data = await response.json();
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { apiGet } from "@/lib/api-client";
 
 type Transaction = {
   id: number;
@@ -110,13 +111,7 @@ export default function DetailTransactionPage() {
         setLoading(true);
         setError("");
 
-        const response = await fetch(
-          `/api/transactions/${encodeURIComponent(transactionId)}`,
-          {
-            method: "GET",
-            cache: "no-store",
-          }
-        );
+        const response = await apiGet(`/api/transactions/${transactionId}`);
 
         const data = await response.json().catch(() => null);
 

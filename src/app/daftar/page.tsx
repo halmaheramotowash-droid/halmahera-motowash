@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiPost } from "@/lib/api-client";
 
 export default function DaftarPage() {
   const router = useRouter();
@@ -80,19 +81,9 @@ export default function DaftarPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/daftar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: cleanName,
-          email: cleanEmail,
-          username: cleanUsername,
-          password,
-          confirmPassword,
-        }),
-      });
+      const response = await apiPost("/api/daftar", {
+  // PERTAHANKAN SELURUH ISI object yang sekarang
+});
 
       const data = await response.json();
 
