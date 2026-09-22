@@ -1,7 +1,12 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/auth";
+import { applyCors, corsOptions } from "@/lib/cors";
+
+export async function OPTIONS(request: Request) {
+  return corsOptions(request);
+}
 
 export async function POST(request: Request) {
   try {
@@ -11,9 +16,12 @@ export async function POST(request: Request) {
     const password = String(body.password ?? "");
 
     if (!username || !password) {
-      return NextResponse.json(
-        { error: "Username dan password wajib diisi" },
-        { status: 400 }
+      return applyCors(
+        NextResponse.json(
+          { error: "Username dan password wajib diisi" },
+          { status: 400 }
+        ),
+        request
       );
     }
 
@@ -22,9 +30,12 @@ export async function POST(request: Request) {
     });
 
     if (!user || !user.active) {
-      return NextResponse.json(
-        { error: "Username atau password salah" },
-        { status: 401 }
+      return applyCors(
+        NextResponse.json(
+          { error: "Username atau password salah" },
+          { status: 401 }
+        ),
+        request
       );
     }
 
@@ -34,9 +45,12 @@ export async function POST(request: Request) {
     );
 
     if (!passwordValid) {
-      return NextResponse.json(
-        { error: "Username atau password salah" },
-        { status: 401 }
+      return applyCors(
+        NextResponse.json(
+          { error: "Username atau password salah" },
+          { status: 401 }
+        ),
+        request
       );
     }
 
@@ -49,7 +63,7 @@ export async function POST(request: Request) {
     /*
      * Website tetap menggunakan HttpOnly cookie.
      *
-     * APK/mobile nantinya dapat meminta JWT secara eksplisit
+     * APK/mobile dapat meminta JWT secara eksplisit
      * menggunakan header:
      *
      * X-Client-Type: mobile
@@ -88,13 +102,16 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return response;
+    return applyCors(response, request);
   } catch (error) {
     console.error(error);
 
-    return NextResponse.json(
-      { error: "Gagal memproses login" },
-      { status: 500 }
+    return applyCors(
+      NextResponse.json(
+        { error: "Gagal memproses login" },
+        { status: 500 }
+      ),
+      request
     );
   }
 }
