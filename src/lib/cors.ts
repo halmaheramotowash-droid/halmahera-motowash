@@ -11,6 +11,7 @@ const ALLOWED_ORIGINS = new Set([
   // Local mobile development
   "http://localhost:5173",
   "http://localhost:5174",
+  "http://172.20.10.9:5173",
 ]);
 
 export function getCorsOrigin(request: Request) {

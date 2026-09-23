@@ -9,12 +9,12 @@ const ALLOWED_ORIGINS = new Set([
   "https://localhost",
   "http://localhost",
   "capacitor://localhost",
+  "http://172.20.10.9:5173",
 
   // Local mobile development
   "http://localhost:5173",
   "http://localhost:5174",
 ]);
-
 function applyCors(
   response: NextResponse,
   request: NextRequest
