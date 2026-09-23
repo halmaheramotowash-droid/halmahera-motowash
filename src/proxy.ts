@@ -5,9 +5,14 @@ import { jwtVerify } from "jose";
 const secret = process.env.AUTH_SECRET;
 
 const ALLOWED_ORIGINS = new Set([
+  // Android Capacitor
   "https://localhost",
   "http://localhost",
   "capacitor://localhost",
+
+  // Local mobile development
+  "http://localhost:5173",
+  "http://localhost:5174",
 ]);
 
 function applyCors(

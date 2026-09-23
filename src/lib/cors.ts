@@ -2,9 +2,15 @@
 
 const ALLOWED_ORIGINS = new Set([
   "https://halmaheramotowash.vercel.app",
+
+  // Android Capacitor
   "https://localhost",
   "http://localhost",
   "capacitor://localhost",
+
+  // Local mobile development
+  "http://localhost:5173",
+  "http://localhost:5174",
 ]);
 
 export function getCorsOrigin(request: Request) {
