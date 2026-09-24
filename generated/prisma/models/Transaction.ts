@@ -56,6 +56,8 @@ export type TransactionMinAggregateOutputType = {
   vehicleType: $Enums.VehicleType | null
   price: number | null
   employeeResult: number | null
+  paymentMethod: $Enums.PaymentMethod | null
+  paymentStatus: $Enums.PaymentStatus | null
   status: $Enums.TransactionStatus | null
   printStatus: $Enums.PrintStatus | null
   printedAt: Date | null
@@ -77,6 +79,8 @@ export type TransactionMaxAggregateOutputType = {
   vehicleType: $Enums.VehicleType | null
   price: number | null
   employeeResult: number | null
+  paymentMethod: $Enums.PaymentMethod | null
+  paymentStatus: $Enums.PaymentStatus | null
   status: $Enums.TransactionStatus | null
   printStatus: $Enums.PrintStatus | null
   printedAt: Date | null
@@ -98,6 +102,8 @@ export type TransactionCountAggregateOutputType = {
   vehicleType: number
   price: number
   employeeResult: number
+  paymentMethod: number
+  paymentStatus: number
   status: number
   printStatus: number
   printedAt: number
@@ -139,6 +145,8 @@ export type TransactionMinAggregateInputType = {
   vehicleType?: true
   price?: true
   employeeResult?: true
+  paymentMethod?: true
+  paymentStatus?: true
   status?: true
   printStatus?: true
   printedAt?: true
@@ -160,6 +168,8 @@ export type TransactionMaxAggregateInputType = {
   vehicleType?: true
   price?: true
   employeeResult?: true
+  paymentMethod?: true
+  paymentStatus?: true
   status?: true
   printStatus?: true
   printedAt?: true
@@ -181,6 +191,8 @@ export type TransactionCountAggregateInputType = {
   vehicleType?: true
   price?: true
   employeeResult?: true
+  paymentMethod?: true
+  paymentStatus?: true
   status?: true
   printStatus?: true
   printedAt?: true
@@ -289,6 +301,8 @@ export type TransactionGroupByOutputType = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod: $Enums.PaymentMethod
+  paymentStatus: $Enums.PaymentStatus
   status: $Enums.TransactionStatus
   printStatus: $Enums.PrintStatus
   printedAt: Date | null
@@ -333,6 +347,8 @@ export type TransactionWhereInput = {
   vehicleType?: Prisma.EnumVehicleTypeFilter<"Transaction"> | $Enums.VehicleType
   price?: Prisma.IntFilter<"Transaction"> | number
   employeeResult?: Prisma.IntFilter<"Transaction"> | number
+  paymentMethod?: Prisma.EnumPaymentMethodFilter<"Transaction"> | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFilter<"Transaction"> | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFilter<"Transaction"> | $Enums.PrintStatus
   printedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
@@ -356,6 +372,8 @@ export type TransactionOrderByWithRelationInput = {
   vehicleType?: Prisma.SortOrder
   price?: Prisma.SortOrder
   employeeResult?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
   printStatus?: Prisma.SortOrder
   printedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -382,6 +400,8 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   vehicleType?: Prisma.EnumVehicleTypeFilter<"Transaction"> | $Enums.VehicleType
   price?: Prisma.IntFilter<"Transaction"> | number
   employeeResult?: Prisma.IntFilter<"Transaction"> | number
+  paymentMethod?: Prisma.EnumPaymentMethodFilter<"Transaction"> | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFilter<"Transaction"> | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFilter<"Transaction"> | $Enums.PrintStatus
   printedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
@@ -405,6 +425,8 @@ export type TransactionOrderByWithAggregationInput = {
   vehicleType?: Prisma.SortOrder
   price?: Prisma.SortOrder
   employeeResult?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
   printStatus?: Prisma.SortOrder
   printedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -434,6 +456,8 @@ export type TransactionScalarWhereWithAggregatesInput = {
   vehicleType?: Prisma.EnumVehicleTypeWithAggregatesFilter<"Transaction"> | $Enums.VehicleType
   price?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
   employeeResult?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
+  paymentMethod?: Prisma.EnumPaymentMethodWithAggregatesFilter<"Transaction"> | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusWithAggregatesFilter<"Transaction"> | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusWithAggregatesFilter<"Transaction"> | $Enums.PrintStatus
   printedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
@@ -452,6 +476,8 @@ export type TransactionCreateInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -475,6 +501,8 @@ export type TransactionUncheckedCreateInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -493,6 +521,8 @@ export type TransactionUpdateInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -516,6 +546,8 @@ export type TransactionUncheckedUpdateInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -537,6 +569,8 @@ export type TransactionCreateManyInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -555,6 +589,8 @@ export type TransactionUpdateManyMutationInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -576,6 +612,8 @@ export type TransactionUncheckedUpdateManyInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -607,6 +645,8 @@ export type TransactionCountOrderByAggregateInput = {
   vehicleType?: Prisma.SortOrder
   price?: Prisma.SortOrder
   employeeResult?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
   printStatus?: Prisma.SortOrder
   printedAt?: Prisma.SortOrder
@@ -637,6 +677,8 @@ export type TransactionMaxOrderByAggregateInput = {
   vehicleType?: Prisma.SortOrder
   price?: Prisma.SortOrder
   employeeResult?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
   printStatus?: Prisma.SortOrder
   printedAt?: Prisma.SortOrder
@@ -658,6 +700,8 @@ export type TransactionMinOrderByAggregateInput = {
   vehicleType?: Prisma.SortOrder
   price?: Prisma.SortOrder
   employeeResult?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
   printStatus?: Prisma.SortOrder
   printedAt?: Prisma.SortOrder
@@ -760,6 +804,14 @@ export type TransactionUncheckedUpdateManyWithoutVehicleNestedInput = {
   deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
+export type EnumPaymentMethodFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentMethod
+}
+
+export type EnumPaymentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentStatus
+}
+
 export type EnumTransactionStatusFieldUpdateOperationsInput = {
   set?: $Enums.TransactionStatus
 }
@@ -785,6 +837,8 @@ export type TransactionCreateWithoutEmployeeInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -806,6 +860,8 @@ export type TransactionUncheckedCreateWithoutEmployeeInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -856,6 +912,8 @@ export type TransactionScalarWhereInput = {
   vehicleType?: Prisma.EnumVehicleTypeFilter<"Transaction"> | $Enums.VehicleType
   price?: Prisma.IntFilter<"Transaction"> | number
   employeeResult?: Prisma.IntFilter<"Transaction"> | number
+  paymentMethod?: Prisma.EnumPaymentMethodFilter<"Transaction"> | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFilter<"Transaction"> | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFilter<"Transaction"> | $Enums.PrintStatus
   printedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
@@ -874,6 +932,8 @@ export type TransactionCreateWithoutVehicleInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -895,6 +955,8 @@ export type TransactionUncheckedCreateWithoutVehicleInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -941,6 +1003,8 @@ export type TransactionCreateManyEmployeeInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -959,6 +1023,8 @@ export type TransactionUpdateWithoutEmployeeInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -980,6 +1046,8 @@ export type TransactionUncheckedUpdateWithoutEmployeeInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1000,6 +1068,8 @@ export type TransactionUncheckedUpdateManyWithoutEmployeeInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1020,6 +1090,8 @@ export type TransactionCreateManyVehicleInput = {
   vehicleType: $Enums.VehicleType
   price: number
   employeeResult: number
+  paymentMethod?: $Enums.PaymentMethod
+  paymentStatus?: $Enums.PaymentStatus
   status?: $Enums.TransactionStatus
   printStatus?: $Enums.PrintStatus
   printedAt?: Date | string | null
@@ -1038,6 +1110,8 @@ export type TransactionUpdateWithoutVehicleInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1059,6 +1133,8 @@ export type TransactionUncheckedUpdateWithoutVehicleInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1079,6 +1155,8 @@ export type TransactionUncheckedUpdateManyWithoutVehicleInput = {
   vehicleType?: Prisma.EnumVehicleTypeFieldUpdateOperationsInput | $Enums.VehicleType
   price?: Prisma.IntFieldUpdateOperationsInput | number
   employeeResult?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   printStatus?: Prisma.EnumPrintStatusFieldUpdateOperationsInput | $Enums.PrintStatus
   printedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1102,6 +1180,8 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   vehicleType?: boolean
   price?: boolean
   employeeResult?: boolean
+  paymentMethod?: boolean
+  paymentStatus?: boolean
   status?: boolean
   printStatus?: boolean
   printedAt?: boolean
@@ -1125,6 +1205,8 @@ export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   vehicleType?: boolean
   price?: boolean
   employeeResult?: boolean
+  paymentMethod?: boolean
+  paymentStatus?: boolean
   status?: boolean
   printStatus?: boolean
   printedAt?: boolean
@@ -1148,6 +1230,8 @@ export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   vehicleType?: boolean
   price?: boolean
   employeeResult?: boolean
+  paymentMethod?: boolean
+  paymentStatus?: boolean
   status?: boolean
   printStatus?: boolean
   printedAt?: boolean
@@ -1171,6 +1255,8 @@ export type TransactionSelectScalar = {
   vehicleType?: boolean
   price?: boolean
   employeeResult?: boolean
+  paymentMethod?: boolean
+  paymentStatus?: boolean
   status?: boolean
   printStatus?: boolean
   printedAt?: boolean
@@ -1180,7 +1266,7 @@ export type TransactionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transactionNumber" | "vehicleId" | "employeeId" | "licensePlateSnapshot" | "brandSnapshot" | "modelSnapshot" | "categorySnapshot" | "vehicleType" | "price" | "employeeResult" | "status" | "printStatus" | "printedAt" | "printAttemptCount" | "lastPrintError" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transactionNumber" | "vehicleId" | "employeeId" | "licensePlateSnapshot" | "brandSnapshot" | "modelSnapshot" | "categorySnapshot" | "vehicleType" | "price" | "employeeResult" | "paymentMethod" | "paymentStatus" | "status" | "printStatus" | "printedAt" | "printAttemptCount" | "lastPrintError" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
 export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   employee?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   vehicle?: boolean | Prisma.Transaction$vehicleArgs<ExtArgs>
@@ -1212,6 +1298,8 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     vehicleType: $Enums.VehicleType
     price: number
     employeeResult: number
+    paymentMethod: $Enums.PaymentMethod
+    paymentStatus: $Enums.PaymentStatus
     status: $Enums.TransactionStatus
     printStatus: $Enums.PrintStatus
     printedAt: Date | null
@@ -1655,6 +1743,8 @@ export interface TransactionFieldRefs {
   readonly vehicleType: Prisma.FieldRef<"Transaction", 'VehicleType'>
   readonly price: Prisma.FieldRef<"Transaction", 'Int'>
   readonly employeeResult: Prisma.FieldRef<"Transaction", 'Int'>
+  readonly paymentMethod: Prisma.FieldRef<"Transaction", 'PaymentMethod'>
+  readonly paymentStatus: Prisma.FieldRef<"Transaction", 'PaymentStatus'>
   readonly status: Prisma.FieldRef<"Transaction", 'TransactionStatus'>
   readonly printStatus: Prisma.FieldRef<"Transaction", 'PrintStatus'>
   readonly printedAt: Prisma.FieldRef<"Transaction", 'DateTime'>

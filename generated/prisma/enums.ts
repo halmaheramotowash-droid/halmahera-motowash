@@ -25,6 +25,22 @@ export const VehicleType = {
 export type VehicleType = (typeof VehicleType)[keyof typeof VehicleType]
 
 
+export const PaymentMethod = {
+  TUNAI: 'TUNAI',
+  QRIS: 'QRIS'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
 export const TransactionStatus = {
   COMPLETED: 'COMPLETED'
 } as const

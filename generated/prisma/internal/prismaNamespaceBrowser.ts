@@ -166,6 +166,8 @@ export const TransactionScalarFieldEnum = {
   vehicleType: 'vehicleType',
   price: 'price',
   employeeResult: 'employeeResult',
+  paymentMethod: 'paymentMethod',
+  paymentStatus: 'paymentStatus',
   status: 'status',
   printStatus: 'printStatus',
   printedAt: 'printedAt',
