@@ -103,6 +103,8 @@ model Transaction {
   vehicleType          VehicleType
   price                Int
   employeeResult       Int
+  paymentMethod        PaymentMethod     @default(TUNAI)
+  paymentStatus        PaymentStatus     @default(PAID)
   status               TransactionStatus @default(COMPLETED)
   printStatus          PrintStatus       @default(NOT_PRINTED)
   printedAt            DateTime?
@@ -207,6 +209,16 @@ enum UserRole {
 enum VehicleType {
   MOTOR
   MOBIL
+}
+
+enum PaymentMethod {
+  TUNAI
+  QRIS
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
 }
 
 enum TransactionStatus {

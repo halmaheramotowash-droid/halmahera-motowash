@@ -83,6 +83,9 @@ export async function POST(request: Request) {
     const category = String(body.category ?? "").trim();
     const model = String(body.model ?? "").trim();
     const price = Number(body.price);
+const paymentMethod = String(
+  body.paymentMethod ?? "TUNAI"
+).trim();
 
     if (!["MOTOR", "MOBIL"].includes(vehicleType)) {
       return NextResponse.json(
@@ -104,6 +107,12 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+if (!["TUNAI", "QRIS"].includes(paymentMethod)) {
+  return NextResponse.json(
+    { error: "Metode pembayaran tidak valid" },
+    { status: 400 }
+  );
+}
 
     const compensation = await prisma.employeeCompensation.findUnique({
       where: {
@@ -143,10 +152,14 @@ export async function POST(request: Request) {
         categorySnapshot: category,
         vehicleType: vehicleType as "MOTOR" | "MOBIL",
 
-        price,
-        employeeResult: compensation.amount,
+       price,
+employeeResult: compensation.amount,
 
-        status: "COMPLETED",
+paymentMethod: paymentMethod as "TUNAI" | "QRIS",
+paymentStatus:
+  paymentMethod === "QRIS" ? "PENDING" : "PAID",
+
+status: "COMPLETED",
       },
     });
 
