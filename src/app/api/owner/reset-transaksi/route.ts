@@ -11,7 +11,8 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          error: "Akses ditolak. Hanya OWNER yang dapat mereset transaksi.",
+          error:
+            "Akses ditolak. Hanya OWNER yang dapat mereset transaksi.",
         },
         { status: 403 }
       );
@@ -40,7 +41,8 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          error: "Akun Owner tidak ditemukan atau tidak aktif.",
+          error:
+            "Akun Owner tidak ditemukan atau tidak aktif.",
         },
         { status: 403 }
       );
@@ -61,12 +63,24 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await prisma.transaction.deleteMany({});
+    const result = await prisma.$transaction(async (tx) => {
+      const transactions =
+        await tx.transaction.deleteMany({});
+
+      const expenses =
+        await tx.expense.deleteMany({});
+
+      return {
+        transactions: transactions.count,
+        expenses: expenses.count,
+      };
+    });
 
     return NextResponse.json({
       success: true,
-      message: `Berhasil menghapus ${result.count} transaksi.`,
-      deletedCount: result.count,
+      message: `Berhasil menghapus ${result.transactions} transaksi dan ${result.expenses} pengeluaran.`,
+      deletedCount: result.transactions,
+      deletedExpenseCount: result.expenses,
     });
   } catch (error) {
     console.error("RESET TRANSAKSI ERROR:", error);
@@ -74,7 +88,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Gagal menghapus transaksi.",
+        error:
+          "Gagal mereset transaksi dan pengeluaran.",
       },
       { status: 500 }
     );

@@ -110,7 +110,7 @@ export default function ResetTransaksiPage() {
             <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-zinc-300">
               <li>Semua data transaksi akan dihapus.</li>
               <li>Riwayat pendapatan dan hasil transaksi akan kosong.</li>
-              <li>Akun, kendaraan, harga, pengeluaran, dan printer tetap aman.</li>
+              <li>Akun, data karyawan, harga, kategori & model, informasi usaha, dan printer tetap aman.</li>
             </ul>
           </div>
 
